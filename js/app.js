@@ -927,15 +927,32 @@ function initRewardsModal() {
     });
   });
 
-  document.querySelectorAll('.reward-card .btn-primary').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      btn.textContent = '✓ Resgatado';
-      btn.className = 'btn btn-glass btn-sm';
-      btn.style.color = 'var(--primary)';
-      btn.style.borderColor = 'var(--primary)';
-      btn.disabled = true;
-    });
+  document.addEventListener('click', (e) => {
+    const redeemBtn = e.target.closest('.btn-redeem-reward');
+    if (!redeemBtn || redeemBtn.disabled) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const cost = parseInt(redeemBtn.dataset.cost) || 0;
+
+    if (appState.points < cost) {
+      const needed = cost - appState.points;
+      showToastNotification(`❌ Crédito insuficiente! Faltam ${needed.toLocaleString('pt-BR')} pontos para este resgate.`, true);
+      return;
+    }
+
+    // Deduct points
+    appState.points -= cost;
+    saveAppState();
+
+    redeemBtn.textContent = '✓ Resgatado';
+    redeemBtn.className = 'btn btn-glass btn-sm';
+    redeemBtn.style.color = 'var(--primary)';
+    redeemBtn.style.borderColor = 'var(--primary)';
+    redeemBtn.disabled = true;
+
+    showToastNotification(`🎉 Recompensa resgatada com sucesso! (${cost} pts deduzidos)`);
   });
 }
 
