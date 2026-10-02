@@ -1,0 +1,132 @@
+    <!-- ========== PAINEL DO USUÁRIO ========== -->
+    <section id="page-user-panel" class="page">
+      <div class="page-header">
+        <div class="greeting">
+          <h1>Painel do Usuário ⚙️</h1>
+          <p>Gerencie suas preferências de perfil, metas diárias de foco e segurança da conta</p>
+        </div>
+      </div>
+
+      <!-- Profile Settings Card -->
+      <div class="glass-card mb-6">
+        <div class="section-head mb-4">
+          <h2>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Perfil & Preferências de Nome
+          </h2>
+        </div>
+
+        <form id="form-user-profile">
+          <div style="display:flex; align-items:center; gap:20px; margin-bottom:20px;">
+            <div style="position:relative; cursor:pointer;" id="avatar-clickable-wrap" title="Clique para editar ou alterar sua foto de perfil">
+              <div style="width:72px; height:72px; border-radius:50%; background:linear-gradient(135deg, var(--primary), var(--accent)); display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:800; color:#0A0A0F; flex-shrink:0; box-shadow:var(--shadow-glow-green); overflow:hidden; transition:transform 0.2s, filter 0.2s;" id="panel-avatar-circle">PE</div>
+              <div style="position:absolute; bottom:0; right:0; width:26px; height:26px; border-radius:50%; background:var(--primary); color:#0A0A0F; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.5); font-size:0.75rem;" title="Editar Foto">✏️</div>
+            </div>
+            <input type="file" accept="image/*" id="profile-avatar" style="display:none;">
+            <div style="flex:1;">
+              <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Como deseja ser chamado (Nome de Exibição):</label>
+              <input type="text" class="chat-input" id="profile-display-name" required placeholder="Seu Nome ou Apelido" style="width:100%;">
+            </div>
+          </div>
+
+          <div style="margin-bottom:20px;">
+            <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">E-mail Cadastrado:</label>
+            <input type="email" class="chat-input" id="profile-email" required placeholder="seuemail@exemplo.com" style="width:100%;">
+          </div>
+          <div style="margin-bottom:20px;">
+            <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Bio / Sobre Mim:</label>
+            <textarea class="chat-input" id="profile-bio" rows="3" placeholder="Fale um pouco sobre você..." style="width:100%;"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-sm">
+            💾 Salvar Alterações de Perfil
+          </button>
+        </form>
+      </div>
+
+      <!-- Goal Customization Card -->
+      <div class="glass-card mb-6">
+        <div class="section-head mb-4">
+          <h2>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Personalização de Metas
+          </h2>
+        </div>
+
+        <form id="form-user-goals">
+          <div style="grid-template-columns: repeat(2, 1fr); display:grid; gap:16px; margin-bottom:20px;">
+            <div>
+              <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Meta Diária de Economia de Tela:</label>
+              <select class="chat-input" id="goal-screen-time" style="width:100%; cursor:pointer;">
+                <option value="2h00m">2 Horas / dia</option>
+                <option value="3h00m" selected>3 Horas / dia (Recomendado)</option>
+                <option value="4h00m">4 Horas / dia</option>
+                <option value="5h00m">5 Horas / dia</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Meta Diária de Estudos & MEC:</label>
+              <select class="chat-input" id="goal-study-time" style="width:100%; cursor:pointer;">
+                <option value="1h00m">1 Hora / dia</option>
+                <option value="2h00m" selected>2 Horas / dia</option>
+                <option value="3h00m">3 Horas / dia</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom:20px;">
+            <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:10px;">Redes Sociais a Limitar:</label>
+            <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:10px;">
+              <label style="display:flex; align-items:center; gap:8px; font-size:0.8125rem; cursor:pointer;" class="glass-card" style="padding:10px 14px;">
+                <input type="checkbox" checked style="accent-color:var(--primary);"> Instagram
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-size:0.8125rem; cursor:pointer;" class="glass-card" style="padding:10px 14px;">
+                <input type="checkbox" checked style="accent-color:var(--primary);"> TikTok
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-size:0.8125rem; cursor:pointer;" class="glass-card" style="padding:10px 14px;">
+                <input type="checkbox" checked style="accent-color:var(--primary);"> YouTube Shorts
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-size:0.8125rem; cursor:pointer;" class="glass-card" style="padding:10px 14px;">
+                <input type="checkbox" style="accent-color:var(--primary);"> X (Twitter)
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-sm">
+            🎯 Atualizar Minhas Metas
+          </button>
+        </form>
+      </div>
+
+      <!-- Password Security Card -->
+      <div class="glass-card mb-6">
+        <div class="section-head mb-4">
+          <h2>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Segurança & Troca de Senha
+          </h2>
+        </div>
+
+        <form id="form-user-password">
+          <div style="margin-bottom:14px;">
+            <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Senha Atual:</label>
+            <input type="password" class="chat-input" id="pwd-current" required placeholder="••••••••" style="width:100%;">
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:14px; margin-bottom:20px;">
+            <div>
+              <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Nova Senha:</label>
+              <input type="password" class="chat-input" id="pwd-new" required placeholder="Mínimo 6 caracteres" minlength="6" style="width:100%;">
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Confirmar Nova Senha:</label>
+              <input type="password" class="chat-input" id="pwd-confirm" required placeholder="Repita a nova senha" minlength="6" style="width:100%;">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-sm">
+            🔒 Atualizar Senha de Acesso
+          </button>
+        </form>
+      </div>
+
+    </section>

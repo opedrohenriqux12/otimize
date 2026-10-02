@@ -1,0 +1,88 @@
+    <!-- ========== ESTUDOS & MEC ========== -->
+    <section id="page-studies" class="page">
+      <div class="page-header">
+        <div class="greeting">
+          <h1>Área de Estudos & MEC 📚</h1>
+          <p>Importe seus cursos iniciados no Aprenda Mais MEC e acompanhe seu progresso unificado</p>
+        </div>
+        <button class="btn btn-primary" id="btn-open-mec-modal">
+          ⚡ Sincronizar Novo Curso do MEC
+        </button>
+      </div>
+
+      <!-- MEC Hero Banner -->
+      <div class="studies-hero">
+        <div>
+          <h2>🎓 Integração "Aprenda Mais" MEC</h2>
+          <p>Cursos 100% gratuitos e autoinstrucionais da Rede Federal integrados à sua pontuação no Otimize</p>
+        </div>
+        <button class="btn btn-glass btn-sm" id="btn-browse-mec-catalog" style="position:relative;z-index:1;">
+          Explorar Catálogo Oficial MEC
+        </button>
+      </div>
+
+      <!-- User's Imported Courses Section -->
+      <div class="section-head mb-4">
+        <h2>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Meus Cursos em Andamento (Sincronizados)
+        </h2>
+        <span class="see-all" id="btn-refresh-mec-courses">🔄 Atualizar Sincronização</span>
+      </div>
+
+      <div class="courses-grid" id="my-active-courses-grid">
+        <!-- Dynamic Imported Courses Rendered via JS -->
+      </div>
+
+      <!-- Validation Module -->
+      <div class="validation-card mt-6">
+        <div class="validation-head">
+          <div class="validation-badge">⚡</div>
+          <div>
+            <h3>Módulo "Aprenda + Otimize"</h3>
+            <p class="text-sm text-secondary">Realize os questionários do aplicativo para validar seus pontos e horas no MEC</p>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+          <div class="progress-track" style="flex:1;height:6px;">
+            <div class="progress-fill green" style="width:60%;" data-width="60%"></div>
+          </div>
+          <span class="text-xs font-mono font-bold text-green">3/5 Quizzes Validados</span>
+        </div>
+
+        <div class="validation-quizzes">
+          <div class="quiz-item completed">
+            <div class="quiz-check">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span>Quiz: Lógica de Programação</span>
+            <span class="quiz-pts">+100 PTS</span>
+          </div>
+          <div class="quiz-item completed">
+            <div class="quiz-check">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span>Quiz: Marketing Digital</span>
+            <span class="quiz-pts">+100 PTS</span>
+          </div>
+          <div class="quiz-item completed">
+            <div class="quiz-check">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span>Quiz: Gestão do Tempo</span>
+            <span class="quiz-pts">+75 PTS</span>
+          </div>
+          <div class="quiz-item">
+            <div class="quiz-check"></div>
+            <span>Quiz: Metodologias Ágeis</span>
+            <span class="quiz-pts">+100 PTS</span>
+          </div>
+          <div class="quiz-item">
+            <div class="quiz-check"></div>
+            <span>Quiz: Finanças Pessoais</span>
+            <span class="quiz-pts">+100 PTS</span>
+          </div>
+        </div>
+      </div>
+    </section>

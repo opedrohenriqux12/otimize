@@ -1,0 +1,114 @@
+    <!-- ========== PODCASTS ========== -->
+    <section id="page-podcasts" class="page">
+      <div class="page-header">
+        <div class="greeting">
+          <h1>Podcasts & Áudios 🎧</h1>
+          <p>Conteúdos educativos em áudio para ouvir sem se distrair no feed das redes</p>
+        </div>
+      </div>
+
+      <!-- Featured Player Card -->
+      <div class="podcast-hero">
+        <div class="podcast-cover">🎙️</div>
+        <div class="podcast-info">
+          <span class="category-tag">Desenvolvimento Pessoal</span>
+          <h2>Foco no que Importa: Menos Feed, Mais Vida</h2>
+          <p class="podcast-desc">Como reprogramar o cérebro contra o vício em dopamina das redes sociais e construir foco inabalável.</p>
+
+          <div class="player-bar">
+            <span class="player-time" id="current-time">00:00</span>
+            <div class="player-track" id="player-track">
+              <div class="progress-fill green" id="player-progress-fill" style="width:0%;"></div>
+            </div>
+            <span class="player-time">42:00</span>
+          </div>
+
+          <div class="player-btns">
+            <button class="p-btn" title="Voltar 15s">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            </button>
+            <button class="p-btn play" id="main-play-btn" title="Reproduzir">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </button>
+            <button class="p-btn" title="Avançar 15s">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            </button>
+
+            <div class="p-actions">
+              <button class="speed-btn" id="speed-btn" title="Velocidade">1x</button>
+              <button class="p-btn" title="Baixar para ouvir offline">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="podcast-tabs">
+        <button class="p-tab active">Todos os Episódios</button>
+        <button class="p-tab">🧘 Foco & Saúde Mental</button>
+        <button class="p-tab">🚀 Desenvolvimento Pessoal</button>
+        <button class="p-tab">💡 Tecnologia & Futuro</button>
+        <button class="p-tab">🎵 Lofi / Concentração</button>
+      </div>
+
+      <!-- Episode List -->
+      <div class="ep-list">
+        <div class="ep-item">
+          <div class="ep-cover mental">🧘</div>
+          <div class="ep-info">
+            <div class="ep-title">Ansiedade Digital: Como Desconectar Sem Culpa</div>
+            <div class="ep-meta">
+              <span>Saúde Mental</span> · <span>35 min</span>
+            </div>
+          </div>
+          <div class="ep-actions">
+            <button class="ep-btn ep-dl" title="Baixar Offline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+            <button class="ep-btn ep-play" title="Tocar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
+          </div>
+        </div>
+
+        <div class="ep-item">
+          <div class="ep-cover dev">🚀</div>
+          <div class="ep-info">
+            <div class="ep-title">5 Micro-Hábitos para Multiplicar sua Produtividade</div>
+            <div class="ep-meta">
+              <span>Desenvolvimento</span> · <span>28 min</span>
+            </div>
+          </div>
+          <div class="ep-actions">
+            <button class="ep-btn ep-dl" title="Baixar Offline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+            <button class="ep-btn ep-play" title="Tocar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
+          </div>
+        </div>
+
+        <div class="ep-item">
+          <div class="ep-cover tech">💡</div>
+          <div class="ep-info">
+            <div class="ep-title">IA Generativa e o Futuro do Trabalho para Jovens</div>
+            <div class="ep-meta">
+              <span>Tecnologia</span> · <span>45 min</span>
+            </div>
+          </div>
+          <div class="ep-actions">
+            <button class="ep-btn ep-dl" title="Baixar Offline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+            <button class="ep-btn ep-play" title="Tocar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
+          </div>
+        </div>
+
+        <div class="ep-item">
+          <div class="ep-cover lofi">🎵</div>
+          <div class="ep-info">
+            <div class="ep-title">Lofi Study Beats: 2 Horas de Imersão e Foco Profundo</div>
+            <div class="ep-meta">
+              <span>Concentração</span> · <span>2h 00m</span>
+            </div>
+          </div>
+          <div class="ep-actions">
+            <button class="ep-btn ep-dl" title="Baixar Offline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+            <button class="ep-btn ep-play" title="Tocar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>

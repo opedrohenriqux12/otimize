@@ -1,0 +1,152 @@
+    <!-- ========== DASHBOARD ========== -->
+    <section id="page-dashboard" class="page active">
+
+      <!-- Header -->
+      <div class="page-header">
+        <div class="greeting">
+          <h1 id="welcome-heading">Olá, Lucas! 👋</h1>
+          <p>Otimize o presente para construir seu futuro consciente.</p>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <div class="streak-badge">
+            <span class="streak-fire">🔥</span>
+            12 Dias no Foco
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Rewards Card -->
+      <div class="rewards-hero mb-7">
+        <div class="rewards-content">
+          <div class="rewards-top">
+            <div>
+              <div class="rewards-points">
+                <span id="hero-points-count">2.450</span>
+                <span class="pts-label">Pontos de Tempo Consciente Acumulados</span>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn btn-glass" id="btn-quick-import-mec">
+                ⚡ Sincronizar Aprenda Mais MEC
+              </button>
+              <button class="btn btn-primary" data-open-rewards>
+                🏆 Resgatar Recompensas
+              </button>
+            </div>
+          </div>
+
+          <div class="level-progress">
+            <div class="level-row">
+              <span class="font-medium">Nível 7 — Guardião do Foco</span>
+              <span class="font-mono font-bold"><span id="level-current-pts">2.450</span> / 3.000 pts</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill green" id="level-progress-bar" style="width: 82%;" data-width="82%"></div>
+            </div>
+          </div>
+
+          <div class="rewards-strip">
+            <div class="reward-chip">
+              <span class="reward-chip-icon">⚡</span>
+              <span>Sincronização em Tempo Real</span>
+            </div>
+            <div class="reward-chip">
+              <span class="reward-chip-icon">🎓</span>
+              <span>Cursos Aprenda Mais MEC</span>
+            </div>
+            <div class="reward-chip">
+              <span class="reward-chip-icon">🤖</span>
+              <span>Tokens de IA Sophia</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon-wrap green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="stat-value font-mono" data-count="3" data-suffix="h 25m">0</div>
+            <div class="stat-label">Tempo de tela poupado hoje</div>
+            <div class="stat-change">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+              +45min vs média semanal
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon-wrap purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <div>
+            <div class="stat-value font-mono" id="stat-active-courses-count">3 cursos</div>
+            <div class="stat-label">Em andamento no MEC & Otimize</div>
+            <div class="stat-change">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+              Sincronização Ativa
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon-wrap amber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div>
+            <div class="stat-value font-mono" data-count="2" data-suffix="h 10m">0</div>
+            <div class="stat-label">Estudo & Validação MEC</div>
+            <div class="stat-change">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+              Meta diária: 3h/dia
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sophia Shortcut Card -->
+      <div class="sophia-shortcut mt-4" id="sophia-shortcut">
+        <div class="sophia-icon">🤖</div>
+        <div>
+          <h3>Pergunte à Sophia IA</h3>
+          <p>Sua copiloto inteligente de hábitos — divida objetivos complexos em micro-passos executáveis.</p>
+        </div>
+        <button class="btn btn-glass btn-sm" style="margin-left:auto;">Abrir Assistente →</button>
+      </div>
+
+      <!-- Daily Activity Summary -->
+      <div class="glass-card mt-7">
+        <div class="section-head mb-4">
+          <h2>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Cronograma Consciente de Hoje
+          </h2>
+          <span class="text-xs text-tertiary font-mono">30 SET 2026</span>
+        </div>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-dot green"></div>
+            <span class="activity-text">Concluir Módulo 3: Lógica & Algoritmos (Plataforma Aprenda Mais MEC)</span>
+            <span class="activity-pts text-green">+100 PTS</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot purple"></div>
+            <span class="activity-text">Quiz de Validação: Fundamentos de Marketing Digital</span>
+            <span class="activity-pts text-accent" style="color:var(--accent);">+75 PTS</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot amber"></div>
+            <span class="activity-text">Ouvir Podcast: "Foco no que Importa: Ergonomia & Saúde Mental"</span>
+            <span class="activity-pts text-warning" style="color:var(--warning);">+50 PTS</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot blue"></div>
+            <span class="activity-text">Manter uso de Instagram/TikTok abaixo de 30 minutos</span>
+            <span class="activity-pts text-info" style="color:var(--info);">+50 PTS</span>
+          </div>
+        </div>
+      </div>
+    </section>
