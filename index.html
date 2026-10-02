@@ -74,6 +74,66 @@
   </div>
 </div>
 
+<!-- ==========================================
+     ONBOARDING MODAL: PLANO PERSONALIZADO (Primeira Vez)
+     ========================================== -->
+<div class="modal-overlay" id="onboarding-plan-modal">
+  <div class="modal" style="max-width:620px;">
+    <div class="modal-head">
+      <h2>🎯 Configure Seu Plano Personalizado</h2>
+    </div>
+    <div style="padding:20px 28px 28px;">
+      <p class="text-sm text-secondary mb-6">
+        Bem-vindo(a) ao <strong>Otimize</strong>! Como esta é a sua primeira vez acessando, defina suas metas diárias para personalizar seu acompanhamento:
+      </p>
+
+      <form id="form-onboarding-goals">
+        <div style="grid-template-columns: repeat(2, 1fr); display:grid; gap:16px; margin-bottom:20px;">
+          <div>
+            <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Meta Diária de Economia de Tela:</label>
+            <select class="chat-input" id="onboard-goal-screen" style="width:100%; cursor:pointer;">
+              <option value="2h00m">2 Horas / dia</option>
+              <option value="3h00m" selected>3 Horas / dia (Recomendado)</option>
+              <option value="4h00m">4 Horas / dia</option>
+              <option value="5h00m">5 Horas / dia</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Meta Diária de Estudos & MEC:</label>
+            <select class="chat-input" id="onboard-goal-study" style="width:100%; cursor:pointer;">
+              <option value="1h00m">1 Hora / dia</option>
+              <option value="2h00m" selected>2 Horas / dia</option>
+              <option value="3h00m">3 Horas / dia</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-bottom:24px;">
+          <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:10px;">Redes Sociais que deseja limitar:</label>
+          <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); gap:10px;">
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.8125rem; cursor:pointer;" class="glass-card" style="padding:10px 14px;">
+              <input type="checkbox" checked style="accent-color:var(--primary);"> Instagram
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.8125rem; cursor:pointer;" class="glass-card" style="padding:10px 14px;">
+              <input type="checkbox" checked style="accent-color:var(--primary);"> TikTok
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.8125rem; cursor:pointer;" class="glass-card" style="padding:10px 14px;">
+              <input type="checkbox" checked style="accent-color:var(--primary);"> YouTube Shorts
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.8125rem; cursor:pointer;" class="glass-card" style="padding:10px 14px;">
+              <input type="checkbox" style="accent-color:var(--primary);"> X (Twitter)
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;">
+          🚀 Finalizar Meu Plano & Entrar no App →
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
 
 <!-- ==========================================
      MAIN APP INTERFACE (Shown after Login)

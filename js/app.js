@@ -174,24 +174,31 @@ function checkAuthView() {
 
     populateUserPanel();
 
-    // Show or hide personalized plan form based on flag
-    const planForm = document.getElementById('form-user-goals');
-    if (planForm) {
-      if (appState.hasSeenPlan) {
-        planForm.style.display = 'none';
-      } else {
-        planForm.style.display = 'block';
-      }
-      // Attach submit handler once
-      if (!planForm.dataset.listenerAdded) {
-        planForm.addEventListener('submit', (e) => {
+    // Show onboarding personalized plan modal ONLY on first register / if not completed
+    const onboardingModal = document.getElementById('onboarding-plan-modal');
+    const onboardingForm = document.getElementById('form-onboarding-goals');
+
+    if (onboardingModal && !appState.hasSeenPlan) {
+      onboardingModal.classList.add('visible');
+      onboardingModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+
+      if (onboardingForm && !onboardingForm.dataset.listenerAdded) {
+        onboardingForm.addEventListener('submit', (e) => {
           e.preventDefault();
           appState.hasSeenPlan = true;
           saveAppState();
-          planForm.style.display = 'none';
+          onboardingModal.classList.remove('visible');
+          onboardingModal.style.display = 'none';
+          document.body.style.overflow = '';
+          showToastNotification(`🎯 Plano personalizado configurado com sucesso!`);
         });
-        planForm.dataset.listenerAdded = 'true';
+        onboardingForm.dataset.listenerAdded = 'true';
       }
+    } else if (onboardingModal) {
+      onboardingModal.classList.remove('visible');
+      onboardingModal.style.display = 'none';
+      document.body.style.overflow = '';
     }
   } else {
     if (landingScreen) landingScreen.style.display = 'flex';
