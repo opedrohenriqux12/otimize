@@ -197,6 +197,9 @@ function checkAuthView() {
 
 function saveAppState() {
   localStorage.setItem('otimize_app_state', JSON.stringify(appState));
+  if (appState.isLoggedIn && appState.email) {
+    saveUserToDatabase(appState);
+  }
   updatePointsUI();
 }
 
@@ -229,6 +232,22 @@ function updatePointsUI() {
   }
 }
 
+function getUsersDatabase() {
+  const users = localStorage.getItem('otimize_registered_users');
+  return users ? JSON.parse(users) : [];
+}
+
+function saveUserToDatabase(user) {
+  const users = getUsersDatabase();
+  const index = users.findIndex(u => u.email.toLowerCase() === user.email.toLowerCase());
+  if (index !== -1) {
+    users[index] = { ...users[index], ...user };
+  } else {
+    users.push(user);
+  }
+  localStorage.setItem('otimize_registered_users', JSON.stringify(users));
+}
+
 /* ---------- LANDING LOGIN SCREEN LOGIC ---------- */
 function initLandingLoginScreen() {
   const tabLogin = document.getElementById('landing-tab-login');
@@ -257,13 +276,28 @@ function initLandingLoginScreen() {
     formLogin.addEventListener('submit', (e) => {
       e.preventDefault();
       const email = document.getElementById('landing-login-email').value.trim();
-      if (!email) return;
+      const password = document.getElementById('landing-login-password').value;
 
-      appState.isLoggedIn = true;
-      appState.email = email;
-      appState.displayName = email.split('@')[0];
+      if (!email || !password) return;
+
+      const users = getUsersDatabase();
+      const foundUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+      if (!foundUser) {
+        showToastNotification('❌ E-mail não encontrado. Crie uma conta para acessar.', true);
+        return;
+      }
+
+      if (foundUser.password !== password) {
+        showToastNotification('❌ Senha incorreta. Tente novamente.', true);
+        return;
+      }
+
+      // Valid Authentication: Load User Data
+      appState = { ...appState, ...foundUser, isLoggedIn: true };
       saveAppState();
       checkAuthView();
+      showToastNotification(`✨ Bem-vindo(a) de volta, ${appState.displayName.split(' ')[0]}!`);
     });
   }
 
@@ -272,13 +306,42 @@ function initLandingLoginScreen() {
       e.preventDefault();
       const name = document.getElementById('landing-reg-name').value.trim();
       const email = document.getElementById('landing-reg-email').value.trim();
-      if (!name || !email) return;
+      const password = document.getElementById('landing-reg-password').value;
 
-      appState.isLoggedIn = true;
-      appState.displayName = name;
-      appState.email = email;
+      if (!name || !email || !password) return;
+
+      if (password.length < 6) {
+        showToastNotification('❌ A senha deve ter no mínimo 6 caracteres.', true);
+        return;
+      }
+
+      const users = getUsersDatabase();
+      const existingUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+      if (existingUser) {
+        showToastNotification('❌ Este e-mail já está cadastrado. Faça login!', true);
+        return;
+      }
+
+      // Create Fresh User (Stats Zeroed for New Account)
+      const newUser = {
+        displayName: name,
+        email: email,
+        password: password,
+        points: 0,
+        level: 1,
+        activeCourses: [],
+        hasSeenPlan: false,
+        bio: "",
+        avatar: ""
+      };
+
+      saveUserToDatabase(newUser);
+
+      appState = { ...appState, ...newUser, isLoggedIn: true };
       saveAppState();
       checkAuthView();
+      showToastNotification(`🎉 Conta criada com sucesso! Olá, ${name.split(' ')[0]}!`);
     });
   }
 
