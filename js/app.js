@@ -336,10 +336,15 @@ function initLandingLoginScreen() {
           checkAuthView();
           showToastNotification(`✨ Bem-vindo(a) de volta, ${(appState.displayName || "Usuário").split(' ')[0]}!`);
         } catch (err) {
-          console.error(err);
+          console.error("Firebase Login Error:", err);
           let msg = '❌ E-mail ou senha incorretos.';
-          if (err.code === 'auth/user-not-found') msg = '❌ Usuário não encontrado. Crie uma conta!';
-          if (err.code === 'auth/wrong-password') msg = '❌ Senha incorreta. Tente novamente.';
+          if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
+            msg = '❌ Usuário não encontrado ou credenciais inválidas no Firebase.';
+          } else if (err.code === 'auth/wrong-password') {
+            msg = '❌ Senha incorreta. Tente novamente.';
+          } else if (err.message) {
+            msg = `❌ Erro Firebase: ${err.message}`;
+          }
           showToastNotification(msg, true);
         }
         return;
