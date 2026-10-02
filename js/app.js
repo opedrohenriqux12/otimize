@@ -338,46 +338,45 @@ function initLandingLoginScreen() {
         } catch (err) {
           console.error("Firebase Login Error:", err);
           
-          // MIGRATION FEATURE: Se o usuário existia no LocalStorage antigo, cadastra automaticamente no Firebase!
-          if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
-            const users = getUsersDatabase();
-            const localUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+          // MIGRATION FEATURE: Se a conta no Firebase não aceitar a senha ou não for encontrada, testa no LocalStorage
+          const users = getUsersDatabase();
+          const localUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
 
-            if (localUser && localUser.password === password) {
-              try {
-                showToastNotification('🔄 Migrando sua conta para o Firebase...', false);
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-                
-                const migratedUser = {
-                  displayName: localUser.displayName || "Usuário",
-                  email: localUser.email,
-                  points: localUser.points || 0,
-                  level: localUser.level || 1,
-                  activeCourses: localUser.activeCourses || [],
-                  hasSeenPlan: localUser.hasSeenPlan || false,
-                  bio: localUser.bio || "",
-                  avatar: localUser.avatar || "",
-                  uid: user.uid
-                };
+          if (localUser && localUser.password === password) {
+            try {
+              showToastNotification('🔄 Criando/Sincronizando conta no Firebase...', false);
+              // Tenta criar no Firebase
+              const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+              const user = userCredential.user;
+              
+              const migratedUser = {
+                displayName: localUser.displayName || "Usuário",
+                email: localUser.email,
+                points: localUser.points || 0,
+                level: localUser.level || 1,
+                activeCourses: localUser.activeCourses || [],
+                hasSeenPlan: localUser.hasSeenPlan || false,
+                bio: localUser.bio || "",
+                avatar: localUser.avatar || "",
+                uid: user.uid
+              };
 
-                await db.collection("users").doc(user.uid).set(migratedUser);
-                appState = { ...appState, ...migratedUser, isLoggedIn: true };
-                saveAppState();
-                checkAuthView();
-                showToastNotification(`🎉 Sua conta foi migrada para o Firebase com sucesso! Bem-vindo(a), ${migratedUser.displayName.split(' ')[0]}!`);
-                return;
-              } catch (migErr) {
-                console.error("Erro na migração:", migErr);
-              }
+              await db.collection("users").doc(user.uid).set(migratedUser);
+              appState = { ...appState, ...migratedUser, isLoggedIn: true };
+              saveAppState();
+              checkAuthView();
+              showToastNotification(`🎉 Conta sincronizada com o Firebase com sucesso! Bem-vindo(a), ${migratedUser.displayName.split(' ')[0]}!`);
+              return;
+            } catch (migErr) {
+              console.error("Erro na criação/migração:", migErr);
             }
           }
 
           let msg = '❌ E-mail ou senha incorretos.';
           if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
-            msg = '❌ Usuário não encontrado ou credenciais inválidas.';
+            msg = '❌ Usuário não encontrado ou senha incorreta no Firebase.';
           } else if (err.code === 'auth/wrong-password') {
-            msg = '❌ Senha incorreta. Tente novamente.';
+            msg = '❌ Senha incorreta no Firebase. Tente novamente.';
           } else if (err.message) {
             msg = `❌ Erro Firebase: ${err.message}`;
           }
