@@ -138,12 +138,12 @@ document.addEventListener('DOMContentLoaded', () => {
 // Substitua as informações abaixo pelas chaves do seu Projeto Firebase:
 // (Firebase Console -> Configurações do Projeto -> Seus aplicativos -> Web)
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY_AQUI",
-  authDomain: "seu-projeto.firebaseapp.com",
-  projectId: "seu-projeto-id",
-  storageBucket: "seu-projeto.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef123456"
+  apiKey: "AIzaSyCDCAvJqraYFAuy92xEFPS0K81qJsRua_A",
+  authDomain: "otimize-1b8ab.firebaseapp.com",
+  projectId: "otimize-1b8ab",
+  storageBucket: "otimize-1b8ab.firebasestorage.app",
+  messagingSenderId: "442977339714",
+  appId: "1:442977339714:web:3a7a0c136b891af7d5a0db"
 };
 
 // Initialize Firebase if credentials configured
