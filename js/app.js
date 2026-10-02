@@ -126,6 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initMecIntegration();
   initUserPanel();
   initAnimations();
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW reg error:', err));
+  }
 });
 
 // Load state from localStorage
