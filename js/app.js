@@ -161,8 +161,14 @@ if (typeof firebase !== 'undefined' && firebaseConfig.apiKey !== "SUA_API_KEY_AQ
   }
 }
 
+// Clear legacy local storage users on startup to start fresh with Firebase
+function clearLegacyLocalAccounts() {
+  localStorage.removeItem('otimize_registered_users');
+}
+
 // Load state from localStorage / Firebase
 function loadAppState() {
+  clearLegacyLocalAccounts();
   if (auth) {
     // Escuta alterações de autenticação em tempo real no Firebase
     auth.onAuthStateChanged(async (user) => {
