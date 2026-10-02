@@ -132,27 +132,82 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Load state from localStorage
-function loadAppState() {
-  const savedState = localStorage.getItem('otimize_app_state');
-  if (savedState) {
-    try {
-      appState = { ...appState, ...JSON.parse(savedState) };
-    } catch (e) {
-      console.error(e);
-    }
-  } else {
-    appState.activeCourses = [
-      MEC_OFFICIAL_CATALOG[0],
-      MEC_OFFICIAL_CATALOG[2],
-      MEC_OFFICIAL_CATALOG[4]
-    ];
-    saveAppState();
-  }
+// ============================================
+// FIREBASE INITIALIZATION & CONFIGURATION
+// ============================================
+// Substitua as informações abaixo pelas chaves do seu Projeto Firebase:
+// (Firebase Console -> Configurações do Projeto -> Seus aplicativos -> Web)
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY_AQUI",
+  authDomain: "seu-projeto.firebaseapp.com",
+  projectId: "seu-projeto-id",
+  storageBucket: "seu-projeto.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abcdef123456"
+};
 
-  checkAuthView();
-  updatePointsUI();
-  renderMyActiveCourses();
+// Initialize Firebase if credentials configured
+let auth = null;
+let db = null;
+
+if (typeof firebase !== 'undefined' && firebaseConfig.apiKey !== "SUA_API_KEY_AQUI") {
+  try {
+    firebase.initializeApp(firebaseConfig);
+    auth = firebase.auth();
+    db = firebase.firestore();
+    console.log("🔥 Firebase inicializado com sucesso!");
+  } catch (err) {
+    console.error("Erro ao inicializar Firebase:", err);
+  }
+}
+
+// Load state from localStorage / Firebase
+function loadAppState() {
+  if (auth) {
+    // Escuta alterações de autenticação em tempo real no Firebase
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        try {
+          const docRef = db.collection("users").doc(user.uid);
+          const docSnap = await docRef.get();
+          if (docSnap.exists) {
+            appState = { ...appState, ...docSnap.data(), uid: user.uid, isLoggedIn: true };
+          } else {
+            appState.isLoggedIn = true;
+            appState.uid = user.uid;
+            appState.email = user.email;
+          }
+        } catch (err) {
+          console.error("Erro ao carregar dados do Firestore:", err);
+        }
+      } else {
+        appState.isLoggedIn = false;
+      }
+      checkAuthView();
+      updatePointsUI();
+      renderMyActiveCourses();
+    });
+  } else {
+    // Fallback para localStorage se Firebase não estiver configurado
+    const savedState = localStorage.getItem('otimize_app_state');
+    if (savedState) {
+      try {
+        appState = { ...appState, ...JSON.parse(savedState) };
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      appState.activeCourses = [
+        MEC_OFFICIAL_CATALOG[0],
+        MEC_OFFICIAL_CATALOG[2],
+        MEC_OFFICIAL_CATALOG[4]
+      ];
+      saveAppState();
+    }
+    checkAuthView();
+    updatePointsUI();
+    renderMyActiveCourses();
+  }
 }
 
 function checkAuthView() {
@@ -164,13 +219,13 @@ function checkAuthView() {
     if (mainApp) mainApp.style.display = 'flex';
 
     const userDisplayName = document.getElementById('user-display-name');
-    if (userDisplayName) userDisplayName.textContent = appState.displayName;
+    if (userDisplayName) userDisplayName.textContent = appState.displayName || "Usuário";
 
     const welcomeHeading = document.getElementById('welcome-heading');
-    if (welcomeHeading) welcomeHeading.textContent = `Olá, ${appState.displayName.split(' ')[0]}! 👋`;
+    if (welcomeHeading) welcomeHeading.textContent = `Olá, ${(appState.displayName || "Usuário").split(' ')[0]}! 👋`;
 
     const userAvatarText = document.getElementById('user-avatar-text');
-    if (userAvatarText) userAvatarText.textContent = getInitials(appState.displayName);
+    if (userAvatarText) userAvatarText.textContent = getInitials(appState.displayName || "Usuário");
 
     populateUserPanel();
 
@@ -214,41 +269,17 @@ function saveAppState() {
   updatePointsUI();
 }
 
-function updatePointsUI() {
-  const userPtsDisplays = [
-    document.getElementById('hero-points-count'),
-    document.getElementById('level-current-pts'),
-    document.getElementById('modal-points-display')
-  ];
-
-  userPtsDisplays.forEach(el => {
-    if (el) {
-      if (el.id === 'modal-points-display') {
-        el.textContent = `${appState.points.toLocaleString('pt-BR')} Pontos`;
-      } else {
-        el.textContent = appState.points.toLocaleString('pt-BR');
-      }
+async function saveUserToDatabase(user) {
+  // Salva no Firestore se o Firebase estiver ativo
+  if (db && auth && auth.currentUser) {
+    try {
+      await db.collection("users").doc(auth.currentUser.uid).set(user, { merge: true });
+    } catch (err) {
+      console.error("Erro ao salvar dados no Firestore:", err);
     }
-  });
-
-  const levelProgressFill = document.getElementById('level-progress-bar');
-  if (levelProgressFill) {
-    const pct = Math.min(100, Math.round((appState.points / 3000) * 100));
-    levelProgressFill.style.width = pct + '%';
   }
-
-  const activeCountEl = document.getElementById('stat-active-courses-count');
-  if (activeCountEl) {
-    activeCountEl.textContent = `${appState.activeCourses.length} cursos`;
-  }
-}
-
-function getUsersDatabase() {
-  const users = localStorage.getItem('otimize_registered_users');
-  return users ? JSON.parse(users) : [];
-}
-
-function saveUserToDatabase(user) {
+  
+  // Salva localmente também
   const users = getUsersDatabase();
   const index = users.findIndex(u => u.email.toLowerCase() === user.email.toLowerCase());
   if (index !== -1) {
@@ -284,13 +315,37 @@ function initLandingLoginScreen() {
   }
 
   if (formLogin) {
-    formLogin.addEventListener('submit', (e) => {
+    formLogin.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('landing-login-email').value.trim();
       const password = document.getElementById('landing-login-password').value;
 
       if (!email || !password) return;
 
+      if (auth) {
+        try {
+          const userCredential = await auth.signInWithEmailAndPassword(email, password);
+          const user = userCredential.user;
+          const docSnap = await db.collection("users").doc(user.uid).get();
+          if (docSnap.exists) {
+            appState = { ...appState, ...docSnap.data(), uid: user.uid, isLoggedIn: true };
+          } else {
+            appState = { ...appState, email: user.email, uid: user.uid, isLoggedIn: true };
+          }
+          saveAppState();
+          checkAuthView();
+          showToastNotification(`✨ Bem-vindo(a) de volta, ${(appState.displayName || "Usuário").split(' ')[0]}!`);
+        } catch (err) {
+          console.error(err);
+          let msg = '❌ E-mail ou senha incorretos.';
+          if (err.code === 'auth/user-not-found') msg = '❌ Usuário não encontrado. Crie uma conta!';
+          if (err.code === 'auth/wrong-password') msg = '❌ Senha incorreta. Tente novamente.';
+          showToastNotification(msg, true);
+        }
+        return;
+      }
+
+      // LocalStorage Fallback
       const users = getUsersDatabase();
       const foundUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
 
@@ -313,7 +368,7 @@ function initLandingLoginScreen() {
   }
 
   if (formRegister) {
-    formRegister.addEventListener('submit', (e) => {
+    formRegister.addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = document.getElementById('landing-reg-name').value.trim();
       const email = document.getElementById('landing-reg-email').value.trim();
@@ -326,19 +381,9 @@ function initLandingLoginScreen() {
         return;
       }
 
-      const users = getUsersDatabase();
-      const existingUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
-
-      if (existingUser) {
-        showToastNotification('❌ Este e-mail já está cadastrado. Faça login!', true);
-        return;
-      }
-
-      // Create Fresh User (Stats Zeroed for New Account)
       const newUser = {
         displayName: name,
         email: email,
-        password: password,
         points: 0,
         level: 1,
         activeCourses: [],
@@ -347,7 +392,35 @@ function initLandingLoginScreen() {
         avatar: ""
       };
 
-      saveUserToDatabase(newUser);
+      if (auth) {
+        try {
+          const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+          const user = userCredential.user;
+          newUser.uid = user.uid;
+          await db.collection("users").doc(user.uid).set(newUser);
+          appState = { ...appState, ...newUser, isLoggedIn: true };
+          saveAppState();
+          checkAuthView();
+          showToastNotification(`🎉 Conta criada no Firebase com sucesso! Olá, ${name.split(' ')[0]}!`);
+        } catch (err) {
+          console.error(err);
+          let msg = '❌ Erro ao criar conta no Firebase.';
+          if (err.code === 'auth/email-already-in-use') msg = '❌ Este e-mail já está cadastrado no Firebase!';
+          showToastNotification(msg, true);
+        }
+        return;
+      }
+
+      // LocalStorage Fallback
+      const users = getUsersDatabase();
+      const existingUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+      if (existingUser) {
+        showToastNotification('❌ Este e-mail já está cadastrado. Faça login!', true);
+        return;
+      }
+
+      saveUserToDatabase({ ...newUser, password: password });
 
       appState = { ...appState, ...newUser, isLoggedIn: true };
       saveAppState();
@@ -357,7 +430,14 @@ function initLandingLoginScreen() {
   }
 
   if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
+    logoutBtn.addEventListener('click', async () => {
+      if (auth) {
+        try {
+          await auth.signOut();
+        } catch (e) {
+          console.error(e);
+        }
+      }
       appState.isLoggedIn = false;
       saveAppState();
       checkAuthView();
