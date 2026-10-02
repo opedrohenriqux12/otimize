@@ -324,6 +324,7 @@ function initLandingLoginScreen() {
 
       if (auth) {
         try {
+          // 1. Tenta Login Direto no Firebase
           const userCredential = await auth.signInWithEmailAndPassword(email, password);
           const user = userCredential.user;
           const docSnap = await db.collection("users").doc(user.uid).get();
@@ -335,17 +336,22 @@ function initLandingLoginScreen() {
           saveAppState();
           checkAuthView();
           showToastNotification(`✨ Bem-vindo(a) de volta, ${(appState.displayName || "Usuário").split(' ')[0]}!`);
+          return;
         } catch (err) {
           console.error("Firebase Login Error:", err);
-          
-          // MIGRATION FEATURE: Se a conta no Firebase não aceitar a senha ou não for encontrada, testa no LocalStorage
+
+          // 2. Se o usuário já foi cadastrado no Firebase antes da atualização do código, tenta re-autenticar ou informar claramente o erro
+          if (err.code === 'auth/wrong-password') {
+            showToastNotification('❌ Senha incorreta no Firebase. Verifique a senha digitada.', true);
+            return;
+          }
+
+          // 3. Se não encontrou a conta no Firebase, tenta migrar se existia localmente
           const users = getUsersDatabase();
           const localUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
 
           if (localUser && localUser.password === password) {
             try {
-              showToastNotification('🔄 Criando/Sincronizando conta no Firebase...', false);
-              // Tenta criar no Firebase
               const userCredential = await auth.createUserWithEmailAndPassword(email, password);
               const user = userCredential.user;
               
@@ -365,24 +371,19 @@ function initLandingLoginScreen() {
               appState = { ...appState, ...migratedUser, isLoggedIn: true };
               saveAppState();
               checkAuthView();
-              showToastNotification(`🎉 Conta sincronizada com o Firebase com sucesso! Bem-vindo(a), ${migratedUser.displayName.split(' ')[0]}!`);
+              showToastNotification(`🎉 Conta migrada com sucesso para o Firebase!`);
               return;
             } catch (migErr) {
-              console.error("Erro na criação/migração:", migErr);
+              if (migErr.code === 'auth/email-already-in-use') {
+                showToastNotification('❌ E-mail/Senha incorretos no Firebase. Verifique sua senha!', true);
+                return;
+              }
             }
           }
 
-          let msg = '❌ E-mail ou senha incorretos.';
-          if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
-            msg = '❌ Usuário não encontrado ou senha incorreta no Firebase.';
-          } else if (err.code === 'auth/wrong-password') {
-            msg = '❌ Senha incorreta no Firebase. Tente novamente.';
-          } else if (err.message) {
-            msg = `❌ Erro Firebase: ${err.message}`;
-          }
-          showToastNotification(msg, true);
+          showToastNotification('❌ E-mail não encontrado ou senha incorreta. Se criou a conta antes, use a senha exata criada.', true);
+          return;
         }
-        return;
       }
 
       // LocalStorage Fallback
@@ -399,7 +400,6 @@ function initLandingLoginScreen() {
         return;
       }
 
-      // Valid Authentication: Load User Data
       appState = { ...appState, ...foundUser, isLoggedIn: true };
       saveAppState();
       checkAuthView();
