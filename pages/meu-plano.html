@@ -1,0 +1,104 @@
+<!-- ========== MEU PLANO PERSONALIZADO ========== -->
+<section id="page-my-plan" class="page">
+  <div class="page-header">
+    <div class="greeting">
+      <h1>🎯 Meu Plano Personalizado</h1>
+      <p>Acompanhe suas metas individuais, focos de estudo e limitações configuradas no seu cadastro</p>
+    </div>
+  </div>
+
+  <!-- Plan Overview Summary Card -->
+  <div class="glass-card mb-6" style="background: linear-gradient(135deg, rgba(0, 230, 153, 0.08), rgba(18, 18, 26, 0.8)); border: 1px solid rgba(0, 230, 153, 0.2);">
+    <div class="section-head mb-4">
+      <h2>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Resumo do Seu Plano de Foco
+      </h2>
+    </div>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:20px;">
+      <div class="glass-card" style="padding:16px;">
+        <span class="text-xs text-secondary font-semibold" style="display:block; margin-bottom:6px;">🎯 Principal Objetivo:</span>
+        <div style="font-size:1.05rem; font-weight:700; color:var(--primary);" id="plan-display-goal">Aumentar foco nos estudos</div>
+      </div>
+
+      <div class="glass-card" style="padding:16px;">
+        <span class="text-xs text-secondary font-semibold" style="display:block; margin-bottom:6px;">📚 Área de Interesse:</span>
+        <div style="font-size:1.05rem; font-weight:700; color:#FFF;" id="plan-display-area">Tecnologia & Programação</div>
+      </div>
+
+      <div class="glass-card" style="padding:16px;">
+        <span class="text-xs text-secondary font-semibold" style="display:block; margin-bottom:6px;">⏳ Meta Economia de Tela:</span>
+        <div style="font-size:1.05rem; font-weight:700; color:var(--accent);" id="plan-display-screen-goal">3 Horas / dia</div>
+      </div>
+
+      <div class="glass-card" style="padding:16px;">
+        <span class="text-xs text-secondary font-semibold" style="display:block; margin-bottom:6px;">📖 Meta Diária de Estudo:</span>
+        <div style="font-size:1.05rem; font-weight:700; color:var(--primary);" id="plan-display-study-goal">2 Horas / dia</div>
+      </div>
+    </div>
+
+    <div style="padding:16px;" class="glass-card">
+      <span class="text-xs text-secondary font-semibold" style="display:block; margin-bottom:8px;">🚫 Redes Sociais com Limite de Uso:</span>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;" id="plan-display-apps">
+        <span class="badge" style="background:rgba(255,255,255,0.08); padding:6px 12px; border-radius:20px; font-size:0.85rem;">Instagram</span>
+        <span class="badge" style="background:rgba(255,255,255,0.08); padding:6px 12px; border-radius:20px; font-size:0.85rem;">TikTok</span>
+        <span class="badge" style="background:rgba(255,255,255,0.08); padding:6px 12px; border-radius:20px; font-size:0.85rem;">YouTube Shorts</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Re-configure Plan Form Card -->
+  <div class="glass-card">
+    <div class="section-head mb-4">
+      <h2>⚙️ Atualizar Meu Plano Personalizado</h2>
+    </div>
+
+    <form id="form-update-my-plan">
+      <div style="margin-bottom:16px;">
+        <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Atualizar Objetivo Principal:</label>
+        <select class="chat-input" id="update-plan-main-goal" style="width:100%; cursor:pointer;">
+          <option value="Reduzir vício em redes sociais">📱 Reduzir vício em redes sociais e telas</option>
+          <option value="Aumentar foco nos estudos e cursos MEC">🎓 Aumentar foco nos estudos e cursos do MEC</option>
+          <option value="Melhorar gestão de tempo e produtividade">⏱️ Melhorar gestão de tempo e produtividade</option>
+          <option value="Ganhar recompensas aprendendo">🏆 Ganhar recompensas enquanto me desenvolvo</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Atualizar Área de Interesse:</label>
+        <select class="chat-input" id="update-plan-study-area" style="width:100%; cursor:pointer;">
+          <option value="Tecnologia & Programação (TI)">💻 Tecnologia & Programação (TI)</option>
+          <option value="Gestão, Empreendedorismo & Marketing">📊 Gestão, Empreendedorismo & Marketing</option>
+          <option value="Educação Financeira & Investimentos">📈 Educação Financeira & Investimentos</option>
+          <option value="Saúde Mental & Produtividade">🧠 Saúde Mental & Produtividade</option>
+          <option value="Idiomas (Inglês / Espanhol)">🗣️ Idiomas & Comunicação</option>
+        </select>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:16px; margin-bottom:20px;">
+        <div>
+          <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Meta de Economia de Tela:</label>
+          <select class="chat-input" id="update-plan-screen-goal" style="width:100%;">
+            <option value="2h00m">2 Horas / dia</option>
+            <option value="3h00m">3 Horas / dia</option>
+            <option value="4h00m">4 Horas / dia</option>
+            <option value="5h00m">5 Horas / dia</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Meta Diária de Estudos:</label>
+          <select class="chat-input" id="update-plan-study-goal" style="width:100%;">
+            <option value="1h00m">1 Hora / dia</option>
+            <option value="2h00m">2 Horas / dia</option>
+            <option value="3h00m">3 Horas / dia</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-sm">
+        💾 Salvar Alterações no Meu Plano
+      </button>
+    </form>
+  </div>
+</section>

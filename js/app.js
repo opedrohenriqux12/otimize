@@ -107,12 +107,17 @@ let appState = {
   points: 2450,
   level: 7,
   activeCourses: [],
-  // Flag to indicate if the personalized plan has been shown
   hasSeenPlan: false,
-  // User bio (free text)
   bio: "",
-  // Avatar image (base64 data URL)
-  avatar: ""
+  avatar: "",
+  // Plan Details
+  userPlan: {
+    mainGoal: "Aumentar foco nos estudos e cursos do MEC",
+    studyArea: "Tecnologia & Programação (TI)",
+    screenGoal: "3h00m",
+    studyGoal: "2h00m",
+    limitedApps: ["Instagram", "TikTok", "YouTube Shorts"]
+  }
 };
 
 // Main DOM Content Loaded Listener
@@ -239,20 +244,36 @@ function checkAuthView() {
     const onboardingModal = document.getElementById('onboarding-plan-modal');
     const onboardingForm = document.getElementById('form-onboarding-goals');
 
-    if (onboardingModal && !appState.hasSeenPlan) {
-      onboardingModal.classList.add('visible');
-      onboardingModal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-
       if (onboardingForm && !onboardingForm.dataset.listenerAdded) {
         onboardingForm.addEventListener('submit', (e) => {
           e.preventDefault();
+          
+          const mainGoal = document.getElementById('onboard-main-goal')?.value || "Aumentar foco nos estudos";
+          const studyArea = document.getElementById('onboard-study-area')?.value || "Tecnologia & Programação (TI)";
+          const screenGoal = document.getElementById('onboard-goal-screen')?.value || "3h00m";
+          const studyGoal = document.getElementById('onboard-goal-study')?.value || "2h00m";
+          
+          const apps = [];
+          if (document.getElementById('limit-instagram')?.checked) apps.push("Instagram");
+          if (document.getElementById('limit-tiktok')?.checked) apps.push("TikTok");
+          if (document.getElementById('limit-youtube')?.checked) apps.push("YouTube Shorts");
+          if (document.getElementById('limit-twitter')?.checked) apps.push("X (Twitter)");
+
           appState.hasSeenPlan = true;
+          appState.userPlan = {
+            mainGoal: mainGoal,
+            studyArea: studyArea,
+            screenGoal: screenGoal,
+            studyGoal: studyGoal,
+            limitedApps: apps.length > 0 ? apps : ["Nenhum app limitado"]
+          };
+
           saveAppState();
+          populateMyPlanPage();
           onboardingModal.classList.remove('visible');
           onboardingModal.style.display = 'none';
           document.body.style.overflow = '';
-          showToastNotification(`🎯 Plano personalizado configurado com sucesso!`);
+          showToastNotification(`🎯 Plano personalizado salvo no seu perfil!`);
         });
         onboardingForm.dataset.listenerAdded = 'true';
       }
@@ -261,6 +282,7 @@ function checkAuthView() {
       onboardingModal.style.display = 'none';
       document.body.style.overflow = '';
     }
+    populateMyPlanPage();
   } else {
     if (landingScreen) landingScreen.style.display = 'flex';
     if (mainApp) mainApp.style.display = 'none';
@@ -534,7 +556,72 @@ function switchPage(targetPageId) {
     populateUserPanel();
   }
 
+  if (targetPageId === 'my-plan') {
+    populateMyPlanPage();
+  }
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function populateMyPlanPage() {
+  const plan = appState.userPlan || {};
+
+  const displayGoal = document.getElementById('plan-display-goal');
+  if (displayGoal) displayGoal.textContent = plan.mainGoal || "Aumentar foco nos estudos";
+
+  const displayArea = document.getElementById('plan-display-area');
+  if (displayArea) displayArea.textContent = plan.studyArea || "Tecnologia & Programação (TI)";
+
+  const displayScreenGoal = document.getElementById('plan-display-screen-goal');
+  if (displayScreenGoal) displayScreenGoal.textContent = `${(plan.screenGoal || "3h00m").replace('h', ' Horas ').replace('m', ' min')} / dia`;
+
+  const displayStudyGoal = document.getElementById('plan-display-study-goal');
+  if (displayStudyGoal) displayStudyGoal.textContent = `${(plan.studyGoal || "2h00m").replace('h', ' Horas ').replace('m', ' min')} / dia`;
+
+  const displayApps = document.getElementById('plan-display-apps');
+  if (displayApps) {
+    displayApps.innerHTML = '';
+    const apps = plan.limitedApps || ["Instagram", "TikTok", "YouTube Shorts"];
+    apps.forEach(app => {
+      const badge = document.createElement('span');
+      badge.className = 'badge';
+      badge.style.cssText = 'background:rgba(255,255,255,0.08); padding:6px 12px; border-radius:20px; font-size:0.85rem;';
+      badge.textContent = app;
+      displayApps.appendChild(badge);
+    });
+  }
+
+  // Pre-fill update form
+  const updateGoal = document.getElementById('update-plan-main-goal');
+  if (updateGoal && plan.mainGoal) updateGoal.value = plan.mainGoal;
+
+  const updateArea = document.getElementById('update-plan-study-area');
+  if (updateArea && plan.studyArea) updateArea.value = plan.studyArea;
+
+  const updateScreen = document.getElementById('update-plan-screen-goal');
+  if (updateScreen && plan.screenGoal) updateScreen.value = plan.screenGoal;
+
+  const updateStudy = document.getElementById('update-plan-study-goal');
+  if (updateStudy && plan.studyGoal) updateStudy.value = plan.studyGoal;
+
+  // Add form listener for updating plan
+  const formUpdatePlan = document.getElementById('form-update-my-plan');
+  if (formUpdatePlan && !formUpdatePlan.dataset.listenerAdded) {
+    formUpdatePlan.addEventListener('submit', (e) => {
+      e.preventDefault();
+      appState.userPlan = {
+        ...appState.userPlan,
+        mainGoal: document.getElementById('update-plan-main-goal').value,
+        studyArea: document.getElementById('update-plan-study-area').value,
+        screenGoal: document.getElementById('update-plan-screen-goal').value,
+        studyGoal: document.getElementById('update-plan-study-goal').value
+      };
+      saveAppState();
+      populateMyPlanPage();
+      showToastNotification('🎯 Meu Plano atualizado com sucesso!');
+    });
+    formUpdatePlan.dataset.listenerAdded = 'true';
+  }
 }
 
 
