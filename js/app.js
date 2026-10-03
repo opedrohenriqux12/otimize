@@ -352,6 +352,13 @@ function initLandingLoginScreen() {
 
       if (auth) {
         try {
+          const rememberMe = document.getElementById('remember-me-checkbox')?.checked ?? true;
+          const persistenceMode = rememberMe 
+            ? firebase.auth.Auth.Persistence.LOCAL 
+            : firebase.auth.Auth.Persistence.SESSION;
+
+          await auth.setPersistence(persistenceMode);
+
           // 1. Tenta Login Direto no Firebase
           const userCredential = await auth.signInWithEmailAndPassword(email, password);
           const user = userCredential.user;
