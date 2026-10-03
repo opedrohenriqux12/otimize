@@ -217,6 +217,18 @@ function loadAppState() {
   }
 }
 
+function getUsersDatabase() {
+  const saved = localStorage.getItem('otimize_registered_users');
+  if (saved) {
+    try {
+      return JSON.parse(saved);
+    } catch (e) {
+      return [];
+    }
+  }
+  return [];
+}
+
 function checkAuthView() {
   const landingScreen = document.getElementById('landing-screen');
   const mainApp = document.getElementById('main-app');
@@ -239,6 +251,11 @@ function checkAuthView() {
     // Show onboarding personalized plan modal ONLY on first register / if not completed
     const onboardingModal = document.getElementById('onboarding-plan-modal');
     const onboardingForm = document.getElementById('form-onboarding-goals');
+
+    if (onboardingModal && !appState.hasSeenPlan) {
+      onboardingModal.classList.add('visible');
+      onboardingModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
 
       if (onboardingForm && !onboardingForm.dataset.listenerAdded) {
         onboardingForm.addEventListener('submit', (e) => {
