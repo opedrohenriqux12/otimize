@@ -313,7 +313,14 @@ function saveAppState() {
 function updatePointsUI() {
   const pts = appState.points || 0;
   const pointsFormatted = pts.toLocaleString('pt-BR');
-  
+  const level = appState.level || Math.floor(pts / 500) + 1;
+  appState.level = level;
+
+  const targetPts = level * 500;
+  const currentLevelBasePts = (level - 1) * 500;
+  const progressPct = level === 1 && pts === 0 ? 0 : Math.min(100, Math.round(((pts - currentLevelBasePts) / 500) * 100));
+  const levelTitle = getLevelTitle(level);
+
   // Hero points count
   const heroPoints = document.getElementById('hero-points-count');
   if (heroPoints) heroPoints.textContent = pointsFormatted;
@@ -327,22 +334,25 @@ function updatePointsUI() {
   const levelNameEl = document.querySelector('.level-row .font-medium');
   const levelTargetPtsEl = document.querySelector('.level-row .font-mono');
 
-  const level = appState.level || Math.floor(pts / 500) + 1;
-  appState.level = level;
-
-  const targetPts = level * 500;
-  const currentLevelBasePts = (level - 1) * 500;
-  const progressPct = level === 1 && pts === 0 ? 0 : Math.min(100, Math.round(((pts - currentLevelBasePts) / 500) * 100));
-
   if (levelProgressBar) {
     levelProgressBar.style.width = `${progressPct}%`;
   }
   if (levelNameEl) {
-    levelNameEl.textContent = `Nível ${level} — ${getLevelTitle(level)}`;
+    levelNameEl.textContent = `Nível ${level} — ${levelTitle}`;
   }
   if (levelTargetPtsEl) {
     levelTargetPtsEl.innerHTML = `<span id="level-current-pts">${pointsFormatted}</span> / ${targetPts.toLocaleString('pt-BR')} pts`;
   }
+
+  // Update ALL rewards modal & rewards page points displays (id="modal-points-display" or class=".bal-value")
+  document.querySelectorAll('#modal-points-display, .bal-value').forEach(el => {
+    el.textContent = `${pointsFormatted} Pontos`;
+  });
+
+  // Update level badges in rewards page and modals
+  document.querySelectorAll('#page-rewards .streak-badge, .modal-balance .streak-badge').forEach(el => {
+    el.innerHTML = `<span class="streak-fire">🔥</span> Nível ${level} — ${levelTitle}`;
+  });
 
   // Active courses count stat
   const activeCoursesCount = document.getElementById('stat-active-courses-count');
