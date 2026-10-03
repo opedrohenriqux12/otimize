@@ -420,7 +420,9 @@ function initLandingLoginScreen() {
       if (input) {
         const isPwd = input.getAttribute('type') === 'password';
         input.setAttribute('type', isPwd ? 'text' : 'password');
-        btn.textContent = isPwd ? '🙈' : '👁️';
+        btn.innerHTML = isPwd 
+          ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>` 
+          : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
       }
     });
   });
@@ -469,24 +471,14 @@ function initLandingLoginScreen() {
           }
           saveAppState();
           checkAuthView();
-          showToastNotification(`✨ Bem-vindo(a) de volta, ${(appState.displayName || "Usuário").split(' ')[0]}!`);
+          showToastNotification(`Bem-vindo(a) de volta, ${(appState.displayName || "Usuário").split(' ')[0]}!`);
           return;
         } catch (err) {
-          console.error("Firebase Login Error:", err);
-
-          let errorMsg = '❌ E-mail ou senha incorretos.';
+          console.warn("Firebase Login Exception, attempting local fallback:", err);
           if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-            errorMsg = '❌ Senha ou e-mail incorretos no Firebase. Verifique a senha digitada.';
-          } else if (err.code === 'auth/user-not-found') {
-            errorMsg = '❌ Usuário não encontrado. Crie uma conta para acessar!';
-          } else if (err.code === 'auth/unauthorized-domain') {
-            errorMsg = '❌ Domínio não autorizado no Firebase Console. Adicione o domínio nas configurações do Firebase Authentication!';
-          } else if (err.message) {
-            errorMsg = `❌ Erro Firebase: ${err.message}`;
+            showToastNotification('Senha ou e-mail incorretos. Verifique os dados digitados.', true);
+            return;
           }
-
-          showToastNotification(errorMsg, true);
-          return;
         }
       }
 
@@ -495,19 +487,19 @@ function initLandingLoginScreen() {
       const foundUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
 
       if (!foundUser) {
-        showToastNotification('❌ E-mail não encontrado. Crie uma conta para acessar.', true);
+        showToastNotification('E-mail não encontrado. Crie uma conta para acessar.', true);
         return;
       }
 
       if (foundUser.password !== password) {
-        showToastNotification('❌ Senha incorreta. Tente novamente.', true);
+        showToastNotification('Senha incorreta. Tente novamente.', true);
         return;
       }
 
       appState = { ...appState, ...foundUser, isLoggedIn: true };
       saveAppState();
       checkAuthView();
-      showToastNotification(`✨ Bem-vindo(a) de volta, ${appState.displayName.split(' ')[0]}!`);
+      showToastNotification(`Bem-vindo(a) de volta, ${appState.displayName.split(' ')[0]}!`);
     });
   }
 
@@ -521,7 +513,7 @@ function initLandingLoginScreen() {
       if (!name || !email || !password) return;
 
       if (password.length < 6) {
-        showToastNotification('❌ A senha deve ter no mínimo 6 caracteres.', true);
+        showToastNotification('A senha deve ter no mínimo 6 caracteres.', true);
         return;
       }
 
@@ -545,22 +537,23 @@ function initLandingLoginScreen() {
           appState = { ...appState, ...newUser, isLoggedIn: true };
           saveAppState();
           checkAuthView();
-          showToastNotification(`🎉 Conta criada no Firebase com sucesso! Olá, ${name.split(' ')[0]}!`);
+          showToastNotification(`Conta criada com sucesso! Olá, ${name.split(' ')[0]}!`);
+          return;
         } catch (err) {
-          console.error(err);
-          let msg = '❌ Erro ao criar conta no Firebase.';
-          if (err.code === 'auth/email-already-in-use') msg = '❌ Este e-mail já está cadastrado no Firebase!';
-          showToastNotification(msg, true);
+          console.warn("Firebase Register Exception, fallbacking to local creation:", err);
+          if (err.code === 'auth/email-already-in-use') {
+            showToastNotification('Este e-mail já está cadastrado. Faça login!', true);
+            return;
+          }
         }
-        return;
       }
 
-      // LocalStorage Fallback
+      // LocalStorage Fallback (ALWAYS succeeds if Firebase is unconfigured or blocked)
       const users = getUsersDatabase();
       const existingUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
 
       if (existingUser) {
-        showToastNotification('❌ Este e-mail já está cadastrado. Faça login!', true);
+        showToastNotification('Este e-mail já está cadastrado. Faça login!', true);
         return;
       }
 
@@ -569,7 +562,7 @@ function initLandingLoginScreen() {
       appState = { ...appState, ...newUser, isLoggedIn: true };
       saveAppState();
       checkAuthView();
-      showToastNotification(`🎉 Conta criada com sucesso! Olá, ${name.split(' ')[0]}!`);
+      showToastNotification(`Conta criada com sucesso! Olá, ${name.split(' ')[0]}!`);
     });
   }
 
