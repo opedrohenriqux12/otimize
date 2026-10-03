@@ -102,21 +102,21 @@ const MEC_OFFICIAL_CATALOG = [
 // Application State
 let appState = {
   isLoggedIn: false,
-  displayName: "Lucas Costa",
-  email: "lucas@exemplo.com",
-  points: 2450,
-  level: 7,
+  displayName: "Novo Usuário",
+  email: "",
+  points: 0,
+  level: 1,
   activeCourses: [],
   hasSeenPlan: false,
   bio: "",
   avatar: "",
   // Plan Details
   userPlan: {
-    mainGoal: "Aumentar foco nos estudos e cursos do MEC",
+    mainGoal: "Aumentar foco nos estudos",
     studyArea: "Tecnologia & Programação (TI)",
     screenGoal: "3h00m",
     studyGoal: "2h00m",
-    limitedApps: ["Instagram", "TikTok", "YouTube Shorts"]
+    limitedApps: []
   }
 };
 
@@ -208,11 +208,7 @@ function loadAppState() {
         console.error(e);
       }
     } else {
-      appState.activeCourses = [
-        MEC_OFFICIAL_CATALOG[0],
-        MEC_OFFICIAL_CATALOG[2],
-        MEC_OFFICIAL_CATALOG[4]
-      ];
+      appState.activeCourses = [];
       saveAppState();
     }
     checkAuthView();
@@ -295,6 +291,69 @@ function saveAppState() {
     saveUserToDatabase(appState);
   }
   updatePointsUI();
+}
+
+function updatePointsUI() {
+  const pts = appState.points || 0;
+  const pointsFormatted = pts.toLocaleString('pt-BR');
+  
+  // Hero points count
+  const heroPoints = document.getElementById('hero-points-count');
+  if (heroPoints) heroPoints.textContent = pointsFormatted;
+
+  // Level current pts
+  const levelCurrentPts = document.getElementById('level-current-pts');
+  if (levelCurrentPts) levelCurrentPts.textContent = pointsFormatted;
+
+  // Level progress bar & level name
+  const levelProgressBar = document.getElementById('level-progress-bar');
+  const levelNameEl = document.querySelector('.level-row .font-medium');
+  const levelTargetPtsEl = document.querySelector('.level-row .font-mono');
+
+  const level = appState.level || Math.floor(pts / 500) + 1;
+  appState.level = level;
+
+  const targetPts = level * 500;
+  const currentLevelBasePts = (level - 1) * 500;
+  const progressPct = level === 1 && pts === 0 ? 0 : Math.min(100, Math.round(((pts - currentLevelBasePts) / 500) * 100));
+
+  if (levelProgressBar) {
+    levelProgressBar.style.width = `${progressPct}%`;
+  }
+  if (levelNameEl) {
+    levelNameEl.textContent = `Nível ${level} — ${getLevelTitle(level)}`;
+  }
+  if (levelTargetPtsEl) {
+    levelTargetPtsEl.innerHTML = `<span id="level-current-pts">${pointsFormatted}</span> / ${targetPts.toLocaleString('pt-BR')} pts`;
+  }
+
+  // Active courses count stat
+  const activeCoursesCount = document.getElementById('stat-active-courses-count');
+  if (activeCoursesCount) {
+    const count = appState.activeCourses ? appState.activeCourses.length : 0;
+    activeCoursesCount.textContent = `${count} ${count === 1 ? 'curso' : 'cursos'}`;
+  }
+
+  // Quiz progress bar & counter update
+  const completedQuizzes = document.querySelectorAll('.validation-quizzes .quiz-item.completed').length;
+  const totalQuizzes = document.querySelectorAll('.validation-quizzes .quiz-item').length;
+  const quizCounterEl = document.querySelector('.validation-card .font-mono.font-bold');
+  const quizProgressFill = document.querySelector('.validation-card .progress-fill');
+  
+  if (quizCounterEl && totalQuizzes > 0) {
+    quizCounterEl.textContent = `${completedQuizzes}/${totalQuizzes} Quizzes Validados`;
+  }
+  if (quizProgressFill && totalQuizzes > 0) {
+    quizProgressFill.style.width = `${Math.round((completedQuizzes / totalQuizzes) * 100)}%`;
+  }
+}
+
+function getLevelTitle(level) {
+  if (level <= 1) return 'Iniciante do Foco';
+  if (level <= 3) return 'Aprendiz Consciente';
+  if (level <= 5) return 'Praticante de Foco';
+  if (level <= 7) return 'Guardião do Foco';
+  return 'Mestre da Mente';
 }
 
 async function saveUserToDatabase(user) {
