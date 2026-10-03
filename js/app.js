@@ -634,7 +634,7 @@ function initLandingLoginScreen() {
   }
 }
 
-/* ---------- ONE-PAGE LANDING PAGE NAVIGATION SYSTEM ---------- */
+/* ---------- TAB NAVIGATION SYSTEM ---------- */
 function initTabNavigation() {
   const navTriggers = document.querySelectorAll('[data-page]');
 
@@ -650,17 +650,10 @@ function initTabNavigation() {
   if (sophiaShortcut) {
     sophiaShortcut.addEventListener('click', () => switchPage('sophia'));
   }
-
-  initScrollSpy();
 }
 
 function switchPage(targetPageId) {
   if (!targetPageId) return;
-
-  const targetSection = document.getElementById(`page-${targetPageId}`);
-  if (targetSection) {
-    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
 
   document.querySelectorAll('[data-page]').forEach(el => {
     if (el.getAttribute('data-page') === targetPageId) {
@@ -670,6 +663,16 @@ function switchPage(targetPageId) {
     }
   });
 
+  const pages = document.querySelectorAll('.page');
+  pages.forEach(page => {
+    page.classList.remove('active');
+  });
+
+  const targetPage = document.getElementById(`page-${targetPageId}`);
+  if (targetPage) {
+    targetPage.classList.add('active');
+  }
+
   if (targetPageId === 'user-panel') {
     populateUserPanel();
   }
@@ -677,34 +680,8 @@ function switchPage(targetPageId) {
   if (targetPageId === 'my-plan') {
     populateMyPlanPage();
   }
-}
 
-function initScrollSpy() {
-  const pageSections = document.querySelectorAll('.page');
-  if (!pageSections.length) return;
-
-  const observerOptions = {
-    root: null,
-    rootMargin: '-20% 0px -55% 0px',
-    threshold: 0
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id.replace('page-', '');
-        document.querySelectorAll('.floating-nav-item').forEach(el => {
-          if (el.getAttribute('data-page') === id) {
-            el.classList.add('active');
-          } else {
-            el.classList.remove('active');
-          }
-        });
-      }
-    });
-  }, observerOptions);
-
-  pageSections.forEach(section => observer.observe(section));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function populateMyPlanPage() {
