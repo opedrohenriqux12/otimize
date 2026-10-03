@@ -1183,3 +1183,212 @@ h4 { font-size: 0.875rem; font-weight: 600; line-height: 1.4; letter-spacing: -0
   .floating-nav-label { display: none; }
   .floating-badge { position: absolute; top: 2px; right: 2px; padding: 2px 4px; font-size: 0.5rem; }
 }
+
+/* ═══════════════════════════════════════════════
+   PREMIUM STUDIES SECTION (HUB MULTI-PLATAFORMA)
+   ═══════════════════════════════════════════════ */
+
+/* KPI Metrics Grid */
+.studies-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px;
+  border-radius: var(--radius-md);
+  background: rgba(18, 18, 26, 0.6);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(var(--primary-rgb), 0.3);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.4);
+}
+
+.kpi-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.kpi-icon.text-cyan { color: #00F0FF; background: rgba(0, 240, 255, 0.08); border-color: rgba(0, 240, 255, 0.2); }
+.kpi-icon.text-green { color: var(--primary); background: rgba(var(--primary-rgb), 0.08); border-color: rgba(var(--primary-rgb), 0.2); }
+.kpi-icon.text-purple { color: #A855F7; background: rgba(168, 85, 247, 0.08); border-color: rgba(168, 85, 247, 0.2); }
+.kpi-icon.text-gold { color: #F59E0B; background: rgba(245, 158, 11, 0.08); border-color: rgba(245, 158, 11, 0.2); }
+
+.kpi-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.kpi-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.kpi-label {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* Provider Filter Tabs */
+.studies-provider-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.studies-provider-tabs::-webkit-scrollbar { display: none; }
+
+.provider-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.provider-tab-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.provider-tab-btn.active {
+  color: #FFFFFF;
+  background: rgba(var(--primary-rgb), 0.15);
+  border-color: var(--primary);
+  box-shadow: 0 0 16px rgba(var(--primary-rgb), 0.25);
+}
+
+.course-badge.mini {
+  padding: 2px 6px;
+  font-size: 0.62rem;
+  letter-spacing: 0.03em;
+  border-radius: 4px;
+}
+
+/* Quick Certificate Validation Widget */
+.cert-quick-validation {
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.04) 0%, rgba(18, 18, 26, 0.7) 100%);
+  border: 1px solid rgba(var(--primary-rgb), 0.2);
+}
+
+.cert-val-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cert-val-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(var(--primary-rgb), 0.12);
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cert-val-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.cert-val-inputs {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Catalog Explorer Card */
+.catalog-explorer-card {
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: rgba(18, 18, 26, 0.6);
+  border: 1px solid var(--glass-border);
+}
+
+.catalog-filters-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Light Theme Adjustments for Studies Section */
+[data-theme="light"] .kpi-card {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .kpi-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .provider-tab-btn {
+  background: #F8FAFC;
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #64748B;
+}
+
+[data-theme="light"] .provider-tab-btn:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+}
+
+[data-theme="light"] .provider-tab-btn.active {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  border-color: #10B981;
+}
+
+[data-theme="light"] .cert-quick-validation {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0%, #FFFFFF 100%);
+  border-color: rgba(16, 185, 129, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .catalog-explorer-card {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+

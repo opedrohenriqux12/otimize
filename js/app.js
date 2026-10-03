@@ -813,54 +813,118 @@ function getInitials(name) {
   return name.slice(0, 2).toUpperCase();
 }
 
-/* ---------- Render Active MEC Courses ---------- */
+/* ---------- Render Active MEC & Multi-Provider Courses ---------- */
+let activeStudiesFilter = 'all';
+
+function renderStudiesStats() {
+  const hoursEl = document.getElementById('stat-studies-hours');
+  const coursesEl = document.getElementById('stat-studies-courses');
+  const certsEl = document.getElementById('stat-studies-certs');
+  const ptsEl = document.getElementById('stat-studies-pts');
+
+  const activeCourses = appState.activeCourses || [];
+  const totalHours = activeCourses.reduce((sum, c) => sum + (Number(c.hours) || 0), 0);
+  const totalCourses = activeCourses.length;
+  const completedCerts = activeCourses.filter(c => {
+    const totalMods = c.modules ? c.modules.length : 0;
+    const compMods = c.modules ? c.modules.filter(m => m.completed).length : 0;
+    return totalMods > 0 && compMods === totalMods;
+  }).length;
+  
+  // Calculate study points (each completed module gives 100 PTS + course enrollment bonus)
+  let studyPts = 0;
+  activeCourses.forEach(c => {
+    studyPts += 100; // Enrollment bonus
+    if (c.modules) {
+      c.modules.forEach(m => { if (m.completed) studyPts += (m.pts || 100); });
+    }
+  });
+
+  if (hoursEl) hoursEl.textContent = `${totalHours}h`;
+  if (coursesEl) coursesEl.textContent = `${totalCourses}`;
+  if (certsEl) certsEl.textContent = `${completedCerts}`;
+  if (ptsEl) ptsEl.textContent = `${studyPts} PTS`;
+}
+
 function renderMyActiveCourses() {
+  renderStudiesStats();
+
   const grid = document.getElementById('my-active-courses-grid');
   if (!grid) return;
 
   grid.innerHTML = '';
 
-  if (appState.activeCourses.length === 0) {
+  const filteredCourses = appState.activeCourses.filter(c => {
+    if (activeStudiesFilter === 'all') return true;
+    return (c.provider || 'mec') === activeStudiesFilter;
+  });
+
+  if (filteredCourses.length === 0) {
+    const isFiltered = activeStudiesFilter !== 'all';
     grid.innerHTML = `
-      <div class="glass-card" style="grid-column:1/-1; text-align:center; padding:32px;">
-        <h3>Nenhum curso do MEC sincronizado ainda</h3>
-        <p class="text-sm text-secondary mt-3 mb-4">Explore o catálogo oficial do Aprenda Mais MEC ou cole a URL da sua matrícula para acompanhar seu progresso!</p>
-        <button class="btn btn-primary" id="btn-empty-mec-open">⚡ Sincronizar Primeiro Curso do MEC</button>
+      <div class="glass-card" style="grid-column:1/-1; text-align:center; padding:36px 24px;">
+        <div style="width:52px; height:52px; border-radius:14px; background:rgba(var(--primary-rgb),0.1); border:1px solid rgba(var(--primary-rgb),0.2); color:var(--primary); display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:6px;">${isFiltered ? 'Nenhum curso encontrado para este provedor' : 'Nenhum curso sincronizado ainda'}</h3>
+        <p class="text-sm text-secondary mb-4" style="max-width:480px; margin-left:auto; margin-right:auto;">Explore o catálogo oficial multi-plataforma ou cole a URL do seu certificado para acompanhar o progresso unificado.</p>
+        <button class="btn btn-primary" id="btn-empty-mec-open">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Sincronizar Primeiro Curso
+        </button>
       </div>
     `;
 
     const emptyBtn = document.getElementById('btn-empty-mec-open');
-    if (emptyBtn) emptyBtn.addEventListener('click', () => switchPage('import-mec'));
+    if (emptyBtn) emptyBtn.addEventListener('click', () => openMecModal());
     return;
   }
 
-  appState.activeCourses.forEach(course => {
-    const completedCount = course.modules.filter(m => m.completed).length;
-    const pct = Math.round((completedCount / course.modules.length) * 100);
+  filteredCourses.forEach(course => {
+    const completedCount = course.modules ? course.modules.filter(m => m.completed).length : 0;
+    const totalCount = course.modules ? course.modules.length : 1;
+    const pct = Math.round((completedCount / totalCount) * 100);
 
     const badgeClass = course.provider || 'mec';
-    const badgeLabel = course.badgeText || (course.provider ? course.provider.toUpperCase() : 'MEC APRENDA+');
+    const badgeLabel = course.badgeText || (course.provider ? course.provider.toUpperCase() : 'MEC');
 
     const card = document.createElement('div');
-    card.className = 'course-card';
+    card.className = 'course-card glass-card';
+    card.style.display = 'flex';
+    card.style.flexDirection = 'column';
+    card.style.padding = '0';
+    card.style.overflow = 'hidden';
+
     card.innerHTML = `
-      <div class="course-thumb ${course.category || 'ti'}">
+      <div class="course-thumb ${course.category || 'ti'}" style="position:relative; height:90px; padding:12px; display:flex; justify-content:space-between; align-items:flex-start; background: linear-gradient(135deg, rgba(var(--primary-rgb),0.12) 0%, rgba(18,18,26,0.9) 100%);">
         <span class="course-badge ${badgeClass}">${badgeLabel}</span>
+        <span class="text-xs font-mono font-semibold text-secondary" style="background:rgba(0,0,0,0.5); padding:3px 8px; border-radius:12px; backdrop-filter:blur(4px);">
+          ${pct === 100 ? '✓ Concluído' : `${pct}% Concluído`}
+        </span>
       </div>
-      <div class="course-body">
-        <h4>${course.title}</h4>
-        <div class="course-meta">
-          <span>⏱️ ${course.hours}h</span>
-          <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">🏫 ${(course.institution || 'MEC').split('—')[0]}</span>
+      <div class="course-body" style="padding:16px; display:flex; flex-direction:column; flex:1;">
+        <h4 style="font-size:1rem; font-weight:700; color:var(--text-primary); margin-bottom:8px; line-height:1.3;">${course.title}</h4>
+        
+        <div class="course-meta text-xs text-secondary mb-3" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+          <span style="display:inline-flex; align-items:center; gap:4px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            ${course.hours}h
+          </span>
+          <span style="display:inline-flex; align-items:center; gap:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:180px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            ${(course.institution || 'MEC').split('—')[0]}
+          </span>
         </div>
-        <div class="course-prog mb-4">
-          <div class="progress-track">
-            <div class="progress-fill green" style="width:${pct}%;"></div>
+
+        <div class="course-prog mb-4" style="margin-top:auto;">
+          <div class="progress-track" style="height:6px; background:rgba(255,255,255,0.08); border-radius:3px; overflow:hidden;">
+            <div class="progress-fill green" style="width:${pct}%; height:100%; transition:width 0.3s ease;"></div>
           </div>
-          <span class="course-pct font-mono">${pct}%</span>
         </div>
-        <button class="btn btn-primary btn-sm" style="width:100%; margin-top:auto;">
-          ▶ Continuar Módulos & Validar
+
+        <button class="btn btn-primary btn-sm" style="width:100%; display:inline-flex; align-items:center; justify-content:center; gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Continuar Módulos & Validar
         </button>
       </div>
     `;
@@ -884,13 +948,11 @@ function initMecIntegration() {
   const contentCatalog = document.getElementById('content-mec-catalog');
   const contentLink = document.getElementById('content-mec-link');
 
-  const quickImportBtn = document.getElementById('btn-quick-import-mec');
   const openMecModalBtn = document.getElementById('btn-open-mec-modal');
   const browseCatalogBtn = document.getElementById('btn-browse-mec-catalog');
 
-  [quickImportBtn, openMecModalBtn, browseCatalogBtn].forEach(btn => {
-    if (btn) btn.addEventListener('click', () => switchPage('import-mec'));
-  });
+  if (openMecModalBtn) openMecModalBtn.addEventListener('click', openMecModal);
+  if (browseCatalogBtn) browseCatalogBtn.addEventListener('click', openMecModal);
 
   if (closeBtn) closeBtn.addEventListener('click', closeMecModal);
 
@@ -916,7 +978,17 @@ function initMecIntegration() {
     });
   }
 
-  // Provider Filter Chips
+  // Studies Page Provider Filter Tabs
+  document.querySelectorAll('[data-studies-filter]').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('[data-studies-filter]').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeStudiesFilter = tab.getAttribute('data-studies-filter');
+      renderMyActiveCourses();
+    });
+  });
+
+  // Modal Provider Filter Chips
   document.querySelectorAll('[data-provider-filter]').forEach(chip => {
     chip.addEventListener('click', () => {
       document.querySelectorAll('[data-provider-filter]').forEach(c => c.classList.remove('active'));
@@ -948,6 +1020,112 @@ function initMecIntegration() {
 
   renderMecCatalogList(MEC_OFFICIAL_CATALOG);
 
+  // In-Page Inline Catalog Filtering & Rendering
+  const inlineSearch = document.getElementById('inline-catalog-search');
+  const inlineCategory = document.getElementById('inline-catalog-category');
+  const inlineGrid = document.getElementById('inline-catalog-grid');
+
+  function renderInlineStudiesCatalog() {
+    if (!inlineGrid) return;
+    const query = inlineSearch ? inlineSearch.value.toLowerCase().trim() : '';
+    const selectedCat = inlineCategory ? inlineCategory.value : 'all';
+
+    const filtered = MEC_OFFICIAL_CATALOG.filter(item => {
+      const matchesQuery = !query || item.title.toLowerCase().includes(query) || item.institution.toLowerCase().includes(query) || item.description.toLowerCase().includes(query);
+      const matchesCat = selectedCat === 'all' || item.category === selectedCat;
+      return matchesQuery && matchesCat;
+    });
+
+    inlineGrid.innerHTML = '';
+    if (filtered.length === 0) {
+      inlineGrid.innerHTML = `<p class="text-sm text-tertiary" style="grid-column:1/-1; text-align:center; padding:20px;">Nenhum curso encontrado no catálogo.</p>`;
+      return;
+    }
+
+    filtered.forEach(course => {
+      const isEnrolled = appState.activeCourses.some(c => c.id === course.id);
+      const badgeClass = course.provider || 'mec';
+      const badgeLabel = course.badgeText || (course.provider ? course.provider.toUpperCase() : 'MEC');
+
+      const card = document.createElement('div');
+      card.className = 'mec-item-card';
+      card.innerHTML = `
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+            <h4 class="mec-item-title">${course.title}</h4>
+            <span class="course-badge ${badgeClass}" style="position:static;">${badgeLabel}</span>
+          </div>
+          <p class="mec-item-meta" style="margin-top:6px;">🏫 ${course.institution} · ⏱️ ${course.hours}h</p>
+          <p class="text-xs text-secondary mb-4" style="line-height:1.4;">${course.description}</p>
+        </div>
+        <div>
+          <button class="btn ${isEnrolled ? 'btn-glass' : 'btn-primary'} btn-sm" style="width:100%;" ${isEnrolled ? 'disabled' : ''}>
+            ${isEnrolled ? '✓ Já Matriculado' : 'Matricular-se (+100 PTS)'}
+          </button>
+        </div>
+      `;
+
+      if (!isEnrolled) {
+        card.querySelector('button').addEventListener('click', () => {
+          appState.activeCourses.push(course);
+          appState.points += 100;
+          saveAppState();
+          renderMyActiveCourses();
+          renderMecCatalogList(MEC_OFFICIAL_CATALOG);
+          renderInlineStudiesCatalog();
+          showToastNotification(`Curso "${course.title}" (${badgeLabel}) adicionado! (+100 PTS)`);
+        });
+      }
+
+      inlineGrid.appendChild(card);
+    });
+  }
+
+  if (inlineSearch) inlineSearch.addEventListener('input', renderInlineStudiesCatalog);
+  if (inlineCategory) inlineCategory.addEventListener('change', renderInlineStudiesCatalog);
+  renderInlineStudiesCatalog();
+
+  // In-Page Quick Certificate Form
+  const quickForm = document.getElementById('form-quick-cert-val');
+  if (quickForm) {
+    quickForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const urlInput = document.getElementById('quick-cert-url').value.trim();
+      const providerInput = document.getElementById('quick-cert-provider').value;
+
+      if (!urlInput) return;
+
+      const providerInfo = getProviderDetails(providerInput, urlInput);
+
+      const newCourse = {
+        id: 'imported-' + Date.now(),
+        provider: providerInput,
+        title: providerInfo.title,
+        category: 'ti',
+        institution: providerInfo.institution,
+        hours: providerInfo.hours,
+        badgeText: providerInfo.badgeText,
+        url: urlInput,
+        description: providerInfo.description,
+        modules: [
+          { id: 'm1', title: 'Módulo 1: Introdução & Validação de Certificado', completed: true, pts: 100 },
+          { id: 'm2', title: 'Módulo 2: Conteúdo Principal do Curso', completed: false, pts: 100 },
+          { id: 'm3', title: 'Módulo 3: Atividades Práticas de Fixação', completed: false, pts: 100 },
+          { id: 'm4', title: 'Avaliação Final & Emissão de Certificado', completed: false, pts: 150 }
+        ]
+      };
+
+      appState.activeCourses.unshift(newCourse);
+      appState.points += 150;
+      saveAppState();
+      renderMyActiveCourses();
+      document.getElementById('quick-cert-url').value = '';
+
+      showToastNotification(`Certificado do ${providerInfo.badgeText} validado com sucesso! (+150 PTS de Bônus)`);
+    });
+  }
+
+  // Modal Import Link Form
   const importForm = document.getElementById('form-import-mec-link');
   if (importForm) {
     importForm.addEventListener('submit', (e) => {
@@ -983,7 +1161,7 @@ function initMecIntegration() {
       renderMyActiveCourses();
       closeMecModal();
 
-      showToastNotification(`🎉 Certificado do ${providerInfo.badgeText} validado com sucesso! (+150 PTS de Bônus)`);
+      showToastNotification(`Certificado do ${providerInfo.badgeText} validado com sucesso! (+150 PTS de Bônus)`);
     });
   }
 

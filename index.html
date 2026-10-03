@@ -482,26 +482,83 @@
       </div>
     </section>
 
-    <!-- ========== ESTUDOS & MEC ========== -->
+    <!-- ========== ESTUDOS & MEC MULTI-PLATAFORMA ========== -->
     <section id="page-studies" class="page">
       <div class="page-header">
         <div class="greeting">
-          <h1>Área de Estudos & MEC 📚</h1>
-          <p>Importe seus cursos iniciados no Aprenda Mais MEC e acompanhe seu progresso unificado</p>
+          <h1>Central de Estudos Multi-Plataforma</h1>
+          <p>Acompanhe seu progresso e valide certificados de <strong>Aprenda Mais MEC</strong>, <strong>Alura</strong>, <strong>Udemy</strong> e <strong>Coursera</strong> em um só lugar.</p>
         </div>
         <button class="btn btn-primary" id="btn-open-mec-modal">
-          ⚡ Sincronizar Novo Curso do MEC
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Sincronizar Novo Curso / Certificado
         </button>
       </div>
 
-      <!-- MEC Hero Banner -->
-      <div class="studies-hero">
-        <div>
-          <h2>🎓 Integração "Aprenda Mais" MEC</h2>
-          <p>Cursos 100% gratuitos e autoinstrucionais da Rede Federal integrados à sua pontuação no Otimize</p>
+      <!-- KPI Metrics Cards Bar -->
+      <div class="studies-kpi-grid mb-6">
+        <div class="kpi-card glass-card">
+          <div class="kpi-icon text-cyan">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-value font-mono" id="stat-studies-hours">0h</span>
+            <span class="kpi-label">Horas Estudadas</span>
+          </div>
         </div>
-        <button class="btn btn-glass btn-sm" id="btn-browse-mec-catalog" style="position:relative;z-index:1;">
-          Explorar Catálogo Oficial MEC
+
+        <div class="kpi-card glass-card">
+          <div class="kpi-icon text-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-value font-mono" id="stat-studies-courses">0</span>
+            <span class="kpi-label">Cursos Ativos</span>
+          </div>
+        </div>
+
+        <div class="kpi-card glass-card">
+          <div class="kpi-icon text-purple">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-value font-mono" id="stat-studies-certs">0</span>
+            <span class="kpi-label">Certificados Validados</span>
+          </div>
+        </div>
+
+        <div class="kpi-card glass-card">
+          <div class="kpi-icon text-gold">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-value font-mono" id="stat-studies-pts">0 PTS</span>
+            <span class="kpi-label">Pontos de Estudos</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Provider Filter Tabs Bar -->
+      <div class="studies-provider-tabs mb-4">
+        <button class="provider-tab-btn active" data-studies-filter="all">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Todos os Cursos
+        </button>
+        <button class="provider-tab-btn" data-studies-filter="mec">
+          <span class="course-badge mec mini">MEC</span>
+          Aprenda Mais MEC
+        </button>
+        <button class="provider-tab-btn" data-studies-filter="alura">
+          <span class="course-badge alura mini">ALURA</span>
+          Alura
+        </button>
+        <button class="provider-tab-btn" data-studies-filter="udemy">
+          <span class="course-badge udemy mini">UDEMY</span>
+          Udemy
+        </button>
+        <button class="provider-tab-btn" data-studies-filter="coursera">
+          <span class="course-badge coursera mini">COURSERA</span>
+          Coursera
         </button>
       </div>
 
@@ -509,58 +566,72 @@
       <div class="section-head mb-4">
         <h2>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          Meus Cursos em Andamento (Sincronizados)
+          Meus Cursos Sincronizados
         </h2>
-        <span class="see-all" id="btn-refresh-mec-courses">🔄 Atualizar Sincronização</span>
+        <span class="see-all" id="btn-refresh-mec-courses" style="cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6"/><path d="M2 11.5a10 10 0 0 1 18.8-4.3L21.5 8M22 12.5a10 10 0 0 1-18.8 4.3L2.5 16"/></svg>
+          Atualizar Sincronização
+        </span>
       </div>
 
       <div class="courses-grid" id="my-active-courses-grid">
         <!-- Dynamic Imported Courses Rendered via JS -->
       </div>
 
-      <!-- Validation Module -->
-      <div class="validation-card mt-6">
-        <div class="validation-head">
-          <div class="validation-badge">⚡</div>
+      <!-- In-Page Quick Certificate Validation Widget -->
+      <div class="glass-card cert-quick-validation mt-6 mb-6">
+        <div class="cert-val-header">
+          <div class="cert-val-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
           <div>
-            <h3>Módulo "Aprenda + Otimize"</h3>
-            <p class="text-sm text-secondary">Realize os questionários do aplicativo para validar seus pontos e horas no MEC</p>
+            <h3>Validação Rápida de Certificado</h3>
+            <p class="text-sm text-secondary">Cole o link da sua matrícula ou o código do certificado para validar horas e resgatar bônus de pontuação.</p>
           </div>
         </div>
 
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
-          <div class="progress-track" style="flex:1;height:6px;">
-            <div class="progress-fill green" style="width:0%;" data-width="0%"></div>
+        <form id="form-quick-cert-val" class="cert-val-form mt-4">
+          <div class="cert-val-inputs">
+            <select class="chat-input" id="quick-cert-provider" style="width:160px; cursor:pointer;">
+              <option value="mec">Aprenda Mais MEC</option>
+              <option value="alura">Alura</option>
+              <option value="udemy">Udemy</option>
+              <option value="coursera">Coursera</option>
+            </select>
+            <input type="text" class="chat-input" id="quick-cert-url" placeholder="Insira o link ou código do certificado (ex: UC-XXXXXX)..." required style="flex:1;">
+            <button type="submit" class="btn btn-primary" style="white-space:nowrap;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Validar Certificado
+            </button>
           </div>
-          <span class="text-xs font-mono font-bold text-green">0/5 Quizzes Validados</span>
+        </form>
+      </div>
+
+      <!-- In-Page Catalog Explorer Section -->
+      <div class="glass-card catalog-explorer-card">
+        <div class="section-head mb-4" style="border:none; padding:0;">
+          <div>
+            <h3>Explorar Catálogo Integrado</h3>
+            <p class="text-sm text-secondary">Descubra e matricule-se em cursos das 4 plataformas parceiras com cálculo automático de horas.</p>
+          </div>
+          <button class="btn btn-glass btn-sm" id="btn-browse-mec-catalog">
+            Ver em Popup
+          </button>
         </div>
 
-        <div class="validation-quizzes">
-          <div class="quiz-item">
-            <div class="quiz-check"></div>
-            <span>Quiz: Lógica de Programação</span>
-            <span class="quiz-pts">+100 PTS</span>
-          </div>
-          <div class="quiz-item">
-            <div class="quiz-check"></div>
-            <span>Quiz: Marketing Digital</span>
-            <span class="quiz-pts">+100 PTS</span>
-          </div>
-          <div class="quiz-item">
-            <div class="quiz-check"></div>
-            <span>Quiz: Gestão do Tempo</span>
-            <span class="quiz-pts">+75 PTS</span>
-          </div>
-          <div class="quiz-item">
-            <div class="quiz-check"></div>
-            <span>Quiz: Metodologias Ágeis</span>
-            <span class="quiz-pts">+100 PTS</span>
-          </div>
-          <div class="quiz-item">
-            <div class="quiz-check"></div>
-            <span>Quiz: Finanças Pessoais</span>
-            <span class="quiz-pts">+100 PTS</span>
-          </div>
+        <div class="catalog-filters-bar mb-4">
+          <input type="text" class="chat-input" id="inline-catalog-search" placeholder="Buscar por título ou tecnologia (ex: Python, React, UX, Gestão)..." style="flex:1;">
+          <select class="chat-input" id="inline-catalog-category" style="width:180px; cursor:pointer;">
+            <option value="all">Todas as Áreas</option>
+            <option value="ti">Informação & TI</option>
+            <option value="gestao">Gestão & Negócios</option>
+            <option value="saude">Saúde & Bem-estar</option>
+            <option value="idiomas">Idiomas & Comunicação</option>
+          </select>
+        </div>
+
+        <div class="mec-catalog-grid" id="inline-catalog-grid">
+          <!-- Rendered via JS -->
         </div>
       </div>
     </section>
