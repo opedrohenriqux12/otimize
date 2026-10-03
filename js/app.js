@@ -120,8 +120,60 @@ let appState = {
   }
 };
 
+/* ============================================
+   THEME SWITCHER SYSTEM (LIGHT / DARK MODE)
+   ============================================ */
+function applyTheme(theme) {
+  const targetTheme = theme === 'light' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', targetTheme);
+  try {
+    localStorage.setItem('otimize_theme', targetTheme);
+  } catch (e) {
+    console.warn('LocalStorage unavailable for theme storage:', e);
+  }
+
+  document.querySelectorAll('.btn-theme-toggle').forEach(btn => {
+    const sunIcon = btn.querySelector('.theme-icon-sun');
+    const moonIcon = btn.querySelector('.theme-icon-moon');
+    if (sunIcon && moonIcon) {
+      if (targetTheme === 'light') {
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+      } else {
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+      }
+    }
+  });
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+  const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+  applyTheme(nextTheme);
+}
+
+function initThemeToggle() {
+  const savedTheme = localStorage.getItem('otimize_theme') || 'dark';
+  applyTheme(savedTheme);
+
+  document.querySelectorAll('.btn-theme-toggle').forEach(btn => {
+    btn.removeEventListener('click', toggleTheme);
+    btn.addEventListener('click', toggleTheme);
+  });
+}
+
+// Immediate execution to prevent Flash of Unstyled Content (FOUC)
+(function () {
+  try {
+    const savedTheme = localStorage.getItem('otimize_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  } catch (e) {}
+})();
+
 // Main DOM Content Loaded Listener
 document.addEventListener('DOMContentLoaded', () => {
+  initThemeToggle();
   loadAppState();
   initLandingLoginScreen();
   initTabNavigation();

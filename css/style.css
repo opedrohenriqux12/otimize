@@ -914,3 +914,192 @@ h4 { font-size: 0.875rem; font-weight: 600; line-height: 1.4; letter-spacing: -0
 .mb-4 { margin-bottom: 16px; }
 .mb-6 { margin-bottom: 24px; }
 .mb-7 { margin-bottom: 28px; }
+
+/* ═══════════════════════════════════════════════
+   LIGHT MODE DESIGN SYSTEM OVERRIDES
+   ═══════════════════════════════════════════════ */
+[data-theme="light"] {
+  --surface-0: #F8FAFC;
+  --surface-1: #FFFFFF;
+  --surface-2: #F1F5F9;
+  --surface-3: #E2E8F0;
+  --surface-4: #CBD5E1;
+
+  --glass: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-hover: rgba(0, 0, 0, 0.04);
+  --glass-strong: rgba(0, 0, 0, 0.08);
+
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-tertiary: #64748B;
+  --text-green: #059669;
+
+  --shadow-glow-green: 0 4px 20px rgba(16, 185, 129, 0.15);
+  --shadow-glow-accent: 0 4px 20px rgba(99, 102, 241, 0.15);
+  --shadow-elevated: 0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 4px 24px rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="light"] body::before {
+  background:
+    radial-gradient(circle 800px at 15% 10%, rgba(16, 185, 129, 0.05), transparent 40%),
+    radial-gradient(circle 600px at 85% 20%, rgba(99, 102, 241, 0.04), transparent 40%),
+    radial-gradient(circle 900px at 50% 90%, rgba(16, 185, 129, 0.03), transparent 50%);
+}
+
+[data-theme="light"] .landing-screen {
+  background: #F8FAFC;
+  background-image: radial-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 1px);
+}
+
+[data-theme="light"] .landing-container {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 1);
+  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .landing-title,
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] .stat-value,
+[data-theme="light"] .rewards-points {
+  color: #0F172A;
+}
+
+[data-theme="light"] .landing-tabs {
+  background: #F1F5F9;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .landing-tab.active {
+  background: #FFFFFF;
+  color: #0F172A;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .sidebar {
+  background: #FFFFFF;
+  border-right: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .sidebar-brand { color: #0F172A; }
+
+[data-theme="light"] .sidebar-header,
+[data-theme="light"] .sidebar-footer {
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .nav-item:hover { background: rgba(0, 0, 0, 0.04); color: #0F172A; }
+
+[data-theme="light"] .nav-item.active {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+[data-theme="light"] .user-name { color: #0F172A; }
+
+[data-theme="light"] .chat-input {
+  background: #F8FAFC;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #0F172A;
+}
+
+[data-theme="light"] .chat-input:focus {
+  background: #FFFFFF;
+  border-color: #10B981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+[data-theme="light"] .glass-card,
+[data-theme="light"] .stat-card,
+[data-theme="light"] .course-card,
+[data-theme="light"] .activity-item,
+[data-theme="light"] .quiz-item,
+[data-theme="light"] .ep-item,
+[data-theme="light"] .reward-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+[data-theme="light"] .glass-card:hover,
+[data-theme="light"] .stat-card:hover,
+[data-theme="light"] .course-card:hover,
+[data-theme="light"] .activity-item:hover,
+[data-theme="light"] .quiz-item:hover,
+[data-theme="light"] .ep-item:hover,
+[data-theme="light"] .reward-card:hover {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="light"] .rewards-hero,
+[data-theme="light"] .studies-hero,
+[data-theme="light"] .podcast-hero {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0%, rgba(99, 102, 241, 0.04) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+[data-theme="light"] .reward-chip {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  color: #475569;
+}
+
+[data-theme="light"] .btn-glass {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: #0F172A;
+}
+
+[data-theme="light"] .btn-glass:hover {
+  background: #F8FAFC;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .modal {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+}
+
+[data-theme="light"] .message.sophia .msg-bubble {
+  background: #F1F5F9;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  color: #0F172A;
+}
+
+[data-theme="light"] .chat-container {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .chat-header,
+[data-theme="light"] .chat-input-bar {
+  background: #F8FAFC;
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .action-pill {
+  background: #F1F5F9;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  color: #475569;
+}
+
+[data-theme="light"] .bottom-nav,
+[data-theme="light"] .mini-player {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .btn-theme-toggle {
+  background: #F1F5F9 !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: #0F172A !important;
+}
