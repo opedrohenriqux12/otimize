@@ -42,9 +42,12 @@
         <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">E-mail do Usuário:</label>
         <input type="email" class="chat-input" id="landing-login-email" required placeholder="seuemail@exemplo.com" style="width:100%;">
       </div>
-      <div style="margin-bottom:16px;">
+      <div style="margin-bottom:16px; position:relative;">
         <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Senha:</label>
-        <input type="password" class="chat-input" id="landing-login-password" required placeholder="••••••••" style="width:100%;">
+        <div style="position:relative;">
+          <input type="password" class="chat-input" id="landing-login-password" required placeholder="••••••••" style="width:100%; padding-right:40px;">
+          <button type="button" class="btn-toggle-pwd" data-target="landing-login-password" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;" title="Mostrar/Ocultar Senha">👁️</button>
+        </div>
       </div>
       <div style="margin-bottom:20px; display:flex; align-items:center; justify-content:space-between;">
         <label style="display:flex; align-items:center; gap:8px; font-size:0.8125rem; color:var(--text-secondary); cursor:pointer;">
@@ -66,9 +69,12 @@
         <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">E-mail:</label>
         <input type="email" class="chat-input" id="landing-reg-email" required placeholder="seuemail@exemplo.com" style="width:100%;">
       </div>
-      <div style="margin-bottom:20px;">
+      <div style="margin-bottom:20px; position:relative;">
         <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Criar Senha:</label>
-        <input type="password" class="chat-input" id="landing-reg-password" required placeholder="Mínimo 6 caracteres" minlength="6" style="width:100%;">
+        <div style="position:relative;">
+          <input type="password" class="chat-input" id="landing-reg-password" required placeholder="Mínimo 6 caracteres" minlength="6" style="width:100%; padding-right:40px;">
+          <button type="button" class="btn-toggle-pwd" data-target="landing-reg-password" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;" title="Mostrar/Ocultar Senha">👁️</button>
+        </div>
       </div>
       <button type="submit" class="btn btn-primary" style="width:100%;">
         ✨ Criar Minha Conta & Começar →

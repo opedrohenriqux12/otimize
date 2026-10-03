@@ -326,6 +326,19 @@ function initLandingLoginScreen() {
   const formRegister = document.getElementById('form-landing-register');
   const logoutBtn = document.getElementById('btn-user-logout');
 
+  // Password Visibility Toggle Handler (Mostrar/Ocultar Senha)
+  document.querySelectorAll('.btn-toggle-pwd').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+      const input = document.getElementById(targetId);
+      if (input) {
+        const isPwd = input.getAttribute('type') === 'password';
+        input.setAttribute('type', isPwd ? 'text' : 'password');
+        btn.textContent = isPwd ? '🙈' : '👁️';
+      }
+    });
+  });
+
   if (tabLogin && tabRegister) {
     tabLogin.addEventListener('click', () => {
       tabLogin.classList.add('active');
