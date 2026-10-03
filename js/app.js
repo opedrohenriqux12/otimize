@@ -375,48 +375,18 @@ function initLandingLoginScreen() {
         } catch (err) {
           console.error("Firebase Login Error:", err);
 
-          // 2. Se o usuário já foi cadastrado no Firebase antes da atualização do código, tenta re-autenticar ou informar claramente o erro
-          if (err.code === 'auth/wrong-password') {
-            showToastNotification('❌ Senha incorreta no Firebase. Verifique a senha digitada.', true);
-            return;
+          let errorMsg = '❌ E-mail ou senha incorretos.';
+          if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+            errorMsg = '❌ Senha ou e-mail incorretos no Firebase. Verifique a senha digitada.';
+          } else if (err.code === 'auth/user-not-found') {
+            errorMsg = '❌ Usuário não encontrado. Crie uma conta para acessar!';
+          } else if (err.code === 'auth/unauthorized-domain') {
+            errorMsg = '❌ Domínio não autorizado no Firebase Console. Adicione o domínio nas configurações do Firebase Authentication!';
+          } else if (err.message) {
+            errorMsg = `❌ Erro Firebase: ${err.message}`;
           }
 
-          // 3. Se não encontrou a conta no Firebase, tenta migrar se existia localmente
-          const users = getUsersDatabase();
-          const localUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
-
-          if (localUser && localUser.password === password) {
-            try {
-              const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-              const user = userCredential.user;
-              
-              const migratedUser = {
-                displayName: localUser.displayName || "Usuário",
-                email: localUser.email,
-                points: localUser.points || 0,
-                level: localUser.level || 1,
-                activeCourses: localUser.activeCourses || [],
-                hasSeenPlan: localUser.hasSeenPlan || false,
-                bio: localUser.bio || "",
-                avatar: localUser.avatar || "",
-                uid: user.uid
-              };
-
-              await db.collection("users").doc(user.uid).set(migratedUser);
-              appState = { ...appState, ...migratedUser, isLoggedIn: true };
-              saveAppState();
-              checkAuthView();
-              showToastNotification(`🎉 Conta migrada com sucesso para o Firebase!`);
-              return;
-            } catch (migErr) {
-              if (migErr.code === 'auth/email-already-in-use') {
-                showToastNotification('❌ E-mail/Senha incorretos no Firebase. Verifique sua senha!', true);
-                return;
-              }
-            }
-          }
-
-          showToastNotification('❌ E-mail não encontrado ou senha incorreta. Se criou a conta antes, use a senha exata criada.', true);
+          showToastNotification(errorMsg, true);
           return;
         }
       }
