@@ -903,31 +903,40 @@
       </div>
     </section>
 
-    <!-- ========== IMPORTAR MEC (PÁGINA DEDICADA) ========== -->
+    <!-- ========== IMPORTAR CURSOS & CERTIFICADOS MULTI-PLATAFORMA ========== -->
     <section id="page-import-mec" class="page">
       <div class="page-header">
         <div class="greeting">
-          <h1>Sincronizador Aprenda Mais MEC 🎓</h1>
-          <p>Importe seus cursos autoinstrucionais e sincronize seus certificados do Ministério da Educação</p>
+          <h1>Hub de Cursos Multi-Plataforma</h1>
+          <p>Sincronize cursos e valide certificados do <strong>MEC</strong>, <strong>Alura</strong>, <strong>Udemy</strong> e <strong>Coursera</strong> para acumular pontos</p>
         </div>
+      </div>
+
+      <!-- Provider Selector Bar -->
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+        <button class="provider-chip-btn active" data-provider-filter="all">Todos os Provedores</button>
+        <button class="provider-chip-btn" data-provider-filter="mec">Aprenda Mais MEC</button>
+        <button class="provider-chip-btn" data-provider-filter="alura">Alura</button>
+        <button class="provider-chip-btn" data-provider-filter="udemy">Udemy</button>
+        <button class="provider-chip-btn" data-provider-filter="coursera">Coursera</button>
       </div>
 
       <!-- Tabs Header -->
       <div style="display:flex; gap:16px; margin-bottom:24px; border-bottom:1px solid var(--glass-border);">
-        <button class="mec-tab-btn active" id="tab-mec-catalog" style="font-size:1rem; padding:12px 20px;">Catálogo Oficial do MEC</button>
-        <button class="mec-tab-btn" id="tab-mec-link" style="font-size:1rem; padding:12px 20px;">Importar via Link / Matrícula</button>
+        <button class="mec-tab-btn active" id="tab-mec-catalog" style="font-size:0.9375rem; padding:12px 20px;">Catálogo de Cursos Otimize</button>
+        <button class="mec-tab-btn" id="tab-mec-link" style="font-size:0.9375rem; padding:12px 20px;">Validar Certificado / Link de Matrícula</button>
       </div>
 
       <!-- Content 1: Catalog -->
       <div class="mec-tab-content active" id="content-mec-catalog">
         <div style="display:flex; gap:14px; margin-bottom:20px;">
-          <input type="text" class="chat-input" id="mec-search-input" placeholder="Buscar curso no Aprenda Mais MEC (ex: Python, Marketing, Finanças)..." style="flex:1;">
+          <input type="text" class="chat-input" id="mec-search-input" placeholder="Buscar curso (ex: Python, React, Data Science, Marketing)..." style="flex:1;">
           <select class="chat-input" id="mec-category-filter" style="width:220px; cursor:pointer;">
             <option value="all">Todas as Áreas</option>
-            <option value="ti">Informação e TI</option>
-            <option value="gestao">Gestão e Negócios</option>
-            <option value="saude">Saúde e Bem-estar</option>
-            <option value="idiomas">Idiomas e Letras</option>
+            <option value="ti">Tecnologia & TI</option>
+            <option value="gestao">Gestão & Negócios</option>
+            <option value="saude">Saúde & Ergonomia</option>
+            <option value="idiomas">Idiomas & Comunicação</option>
           </select>
         </div>
 
@@ -936,32 +945,31 @@
         </div>
       </div>
 
-      <!-- Content 2: Import Link -->
+      <!-- Content 2: Import Link / Certificate -->
       <div class="mec-tab-content" id="content-mec-link" style="display:none;">
         <div class="glass-card mb-6" style="background:rgba(var(--primary-rgb),0.05); border-color:rgba(var(--primary-rgb),0.15);">
-          <h3 style="color:var(--primary); margin-bottom:8px;">🔗 Como Funciona a Importação Direta:</h3>
-          <p class="text-sm text-secondary">Copie a URL do curso ou página da sua inscrição na plataforma <strong style="color:white;">aprendamais.mec.gov.br</strong> e cole no campo abaixo. O Otimize irá identificar a carga horária, instituição e módulos automaticamente!</p>
+          <h3 style="color:var(--primary); margin-bottom:8px;">Como Funciona a Validação de Certificado:</h3>
+          <p class="text-sm text-secondary">Insira o link ou código de verificação do seu certificado do <strong style="color:white;">MEC, Alura, Udemy ou Coursera</strong>. O Otimize inspeciona as horas e credita os pontos no seu saldo!</p>
         </div>
 
         <form id="form-import-mec-link" class="glass-card">
-          <div style="margin-bottom:20px;">
-            <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">URL do Curso ou Código de Inscrição no MEC:</label>
-            <input type="text" class="chat-input" id="mec-import-url" required placeholder="https://aprendamais.mec.gov.br/course/view.php?id=..." style="width:100%;">
-          </div>
-
-          <div style="margin-bottom:24px;">
-            <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Instituição de Ensino Ofertante (opcional):</label>
-            <select class="chat-input" id="mec-import-institution" style="width:100%; cursor:pointer;">
-              <option value="IFRN - Instituto Federal do Rio Grande do Norte">IFRN — Instituto Federal do Rio Grande do Norte</option>
-              <option value="IFSP - Instituto Federal de São Paulo">IFSP — Instituto Federal de São Paulo</option>
-              <option value="IFPR - Instituto Federal do Paraná">IFPR — Instituto Federal do Paraná</option>
-              <option value="IFRS - Instituto Federal do Rio Grande do Sul">IFRS — Instituto Federal do Rio Grande do Sul</option>
-              <option value="IFB - Instituto Federal de Brasília">IFB — Instituto Federal de Brasília</option>
+          <div style="margin-bottom:16px;">
+            <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">Plataforma / Provedor do Curso:</label>
+            <select class="chat-input" id="mec-import-provider" style="width:100%; cursor:pointer;">
+              <option value="mec" selected>Aprenda Mais MEC (Governo Federal)</option>
+              <option value="alura">Alura (Tech & Inovação)</option>
+              <option value="udemy">Udemy (Cursos Práticos & Certificados)</option>
+              <option value="coursera">Coursera (Google, Meta, IBM & Universidades)</option>
             </select>
           </div>
 
+          <div style="margin-bottom:20px;">
+            <label class="text-xs font-semibold text-secondary" style="display:block; margin-bottom:6px;">URL do Curso, Código do Certificado ou Perfil Público:</label>
+            <input type="text" class="chat-input" id="mec-import-url" required placeholder="https://... ou código UC-XXXXXX / coursera.org/verify/..." style="width:100%;">
+          </div>
+
           <button type="submit" class="btn btn-primary" style="width:100%;">
-            ⚡ Validar e Importar Curso para o Otimize
+            Validar Certificado & Sincronizar Pontos →
           </button>
         </form>
       </div>

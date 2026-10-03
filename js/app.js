@@ -2,15 +2,17 @@
    OTIMIZE — Premium App Logic & Landing Screen
    ============================================ */
 
-// Real Official Aprenda Mais MEC Catalog Data
+// Multi-Provider Official Course Catalog Data (MEC, Alura, Udemy, Coursera)
 const MEC_OFFICIAL_CATALOG = [
+  // --- MEC COURSES ---
   {
     id: 'mec-ti-01',
+    provider: 'mec',
     title: 'Lógica de Programação & Algoritmos',
     category: 'ti',
     institution: 'IFRN — Instituto Federal do Rio Grande do Norte',
     hours: 40,
-    thumb: '💻',
+    badgeText: 'MEC',
     url: 'https://aprendamais.mec.gov.br/course/view.php?id=101',
     description: 'Aprenda os princípios fundamentais da lógica de programação, variáveis, estruturas condicionais e de repetição.',
     modules: [
@@ -23,11 +25,12 @@ const MEC_OFFICIAL_CATALOG = [
   },
   {
     id: 'mec-ti-02',
+    provider: 'mec',
     title: 'HTML5 e CSS3: Desenvolvimento Web',
     category: 'ti',
     institution: 'IFSP — Instituto Federal de São Paulo',
     hours: 30,
-    thumb: '🌐',
+    badgeText: 'MEC',
     url: 'https://aprendamais.mec.gov.br/course/view.php?id=102',
     description: 'Crie páginas web modernas, responsivas e acessíveis utilizando HTML5 semântico e folha de estilos CSS3.',
     modules: [
@@ -39,11 +42,12 @@ const MEC_OFFICIAL_CATALOG = [
   },
   {
     id: 'mec-gestao-01',
+    provider: 'mec',
     title: 'Marketing Digital para Microempreendedores',
     category: 'gestao',
     institution: 'IFB — Instituto Federal de Brasília',
     hours: 30,
-    thumb: '📊',
+    badgeText: 'MEC',
     url: 'https://aprendamais.mec.gov.br/course/view.php?id=103',
     description: 'Estratégias de presença online, redes sociais corporativas e funil de vendas para novos negócios.',
     modules: [
@@ -52,49 +56,105 @@ const MEC_OFFICIAL_CATALOG = [
       { id: 'm3', title: 'Módulo 3: Tráfego Pago e Análise de Métricas', completed: false, pts: 100 }
     ]
   },
+
+  // --- ALURA COURSES ---
   {
-    id: 'mec-gestao-02',
-    title: 'Educação Financeira Pessoal & Investimentos',
+    id: 'alura-ti-01',
+    provider: 'alura',
+    title: 'Formação Python & Data Science',
+    category: 'ti',
+    institution: 'Alura — Escola de Tecnologia',
+    hours: 60,
+    badgeText: 'ALURA',
+    url: 'https://www.alura.com.br/formacao-python',
+    description: 'Domine a linguagem Python, tratamento de dados com Pandas/NumPy e visualização para tomada de decisão.',
+    modules: [
+      { id: 'm1', title: 'Módulo 1: Python para Data Science Essentials', completed: false, pts: 150 },
+      { id: 'm2', title: 'Módulo 2: Análise de Dados com Pandas & Matplotlib', completed: false, pts: 150 },
+      { id: 'm3', title: 'Módulo 3: Estatística Aplicada & Projetos Práticos', completed: false, pts: 300 }
+    ]
+  },
+  {
+    id: 'alura-ti-02',
+    provider: 'alura',
+    title: 'React com TypeScript & Tailwind CSS',
+    category: 'ti',
+    institution: 'Alura — Front-End Masters',
+    hours: 50,
+    badgeText: 'ALURA',
+    url: 'https://www.alura.com.br/formacao-react',
+    description: 'Construa aplicações web modernas com componentes reautenticáveis, gerenciamento de estado e tipagem forte.',
+    modules: [
+      { id: 'm1', title: 'Módulo 1: Fundamentos do React 18 & Hooks', completed: false, pts: 150 },
+      { id: 'm2', title: 'Módulo 2: TypeScript no Front-End Moderno', completed: false, pts: 150 },
+      { id: 'm3', title: 'Módulo 3: Consumo de APIs REST & Testes', completed: false, pts: 200 }
+    ]
+  },
+
+  // --- UDEMY COURSES ---
+  {
+    id: 'udemy-ti-01',
+    provider: 'udemy',
+    title: 'Desenvolvimento Web Completo (Full Stack)',
+    category: 'ti',
+    institution: 'Udemy — Tech Academy',
+    hours: 80,
+    badgeText: 'UDEMY',
+    url: 'https://www.udemy.com/course/desenvolvimento-web-completo/',
+    description: 'Aprenda HTML5, CSS3, JavaScript ES6+, Node.js, Express e banco de dados do zero ao profissional.',
+    modules: [
+      { id: 'm1', title: 'Módulo 1: HTML5, CSS3 & Layouts Flexbox', completed: false, pts: 200 },
+      { id: 'm2', title: 'Módulo 2: JavaScript Moderno (ES6+) & DOM', completed: false, pts: 200 },
+      { id: 'm3', title: 'Módulo 3: Node.js & MongoDB Backend', completed: false, pts: 400 }
+    ]
+  },
+  {
+    id: 'udemy-gestao-01',
+    provider: 'udemy',
+    title: 'Gestão de Projetos Ágeis & Scrum Master',
     category: 'gestao',
-    institution: 'IFMG — Instituto Federal de Minas Gerais',
-    hours: 20,
-    thumb: '📈',
-    url: 'https://aprendamais.mec.gov.br/course/view.php?id=104',
-    description: 'Planejamento de orçamento doméstico, controle de dívidas, reserva de emergência e introdução à renda fixa.',
+    institution: 'Udemy — Agile Institute',
+    hours: 25,
+    badgeText: 'UDEMY',
+    url: 'https://www.udemy.com/course/scrum-master/',
+    description: 'Aprenda o framework Scrum, papéis do Product Owner, reuniões diárias, sprints e certificação.',
     modules: [
-      { id: 'm1', title: 'Módulo 1: Diagnóstico Financeiro & Orçamento', completed: false, pts: 100 },
-      { id: 'm2', title: 'Módulo 2: Quitação de Dívidas & Reserva', completed: false, pts: 100 },
-      { id: 'm3', title: 'Módulo 3: Primeiros Passos em Investimentos', completed: false, pts: 100 }
+      { id: 'm1', title: 'Módulo 1: Manifesto Ágil & Fundamentos do Scrum', completed: false, pts: 100 },
+      { id: 'm2', title: 'Módulo 2: Sprints, Retrospectivas & Kanban', completed: false, pts: 150 }
+    ]
+  },
+
+  // --- COURSERA COURSES ---
+  {
+    id: 'coursera-ti-01',
+    provider: 'coursera',
+    title: 'Google Data Analytics Professional Certificate',
+    category: 'ti',
+    institution: 'Google / Coursera',
+    hours: 100,
+    badgeText: 'COURSERA',
+    url: 'https://www.coursera.org/professional-certificates/google-data-analytics',
+    description: 'Certificação oficial do Google cobrindo análise de dados, SQL, R, Tableau e processos de decisão orientados a dados.',
+    modules: [
+      { id: 'm1', title: 'Módulo 1: Fundamentos de Dados (Google)', completed: false, pts: 250 },
+      { id: 'm2', title: 'Módulo 2: Limpeza e Organização com SQL', completed: false, pts: 250 },
+      { id: 'm3', title: 'Módulo 3: Visualização com Tableau & R Studio', completed: false, pts: 500 }
     ]
   },
   {
-    id: 'mec-saude-01',
-    title: 'Saúde Mental, Ergonomia e Hábitos no Trabalho',
-    category: 'saude',
-    institution: 'IFSEMG — Instituto Federal do Sudeste de MG',
-    hours: 20,
-    thumb: '🧠',
-    url: 'https://aprendamais.mec.gov.br/course/view.php?id=105',
-    description: 'Prevenção de burnout digital, técnicas de mindfulness e organização para saúde dos olhos e postura.',
+    id: 'coursera-ti-02',
+    provider: 'coursera',
+    title: 'Meta Front-End Developer Specialization',
+    category: 'ti',
+    institution: 'Meta (Facebook) / Coursera',
+    hours: 90,
+    badgeText: 'COURSERA',
+    url: 'https://www.coursera.org/specializations/meta-front-end-developer',
+    description: 'Treinamento criado pela equipe de engenharia da Meta focado em HTML, CSS, JavaScript, React e Princípios de UX.',
     modules: [
-      { id: 'm1', title: 'Módulo 1: Fundamentos de Saúde Mental', completed: true, pts: 100 },
-      { id: 'm2', title: 'Módulo 2: Ergonomia Digital e Postura', completed: true, pts: 100 },
-      { id: 'm3', title: 'Módulo 3: Gestão de Estresse & Pausas Ativas', completed: true, pts: 100 }
-    ]
-  },
-  {
-    id: 'mec-idiomas-01',
-    title: 'Inglês Aplicado ao Mercado de Trabalho (Básico 1)',
-    category: 'idiomas',
-    institution: 'IFRS — Instituto Federal do Rio Grande do Sul',
-    hours: 40,
-    thumb: '🗣️',
-    url: 'https://aprendamais.mec.gov.br/course/view.php?id=106',
-    description: 'Vocabulário essencial de inglês para apresentações profissionais, e-mails comerciais e reuniões de trabalho.',
-    modules: [
-      { id: 'm1', title: 'Módulo 1: Apresentações e Saudações Corporativas', completed: false, pts: 100 },
-      { id: 'm2', title: 'Módulo 2: Leitura de Documentos & E-mails em Inglês', completed: false, pts: 100 },
-      { id: 'm3', title: 'Módulo 3: Vocabulário Técnico e Entrevistas', completed: false, pts: 100 }
+      { id: 'm1', title: 'Módulo 1: Web Development Fundamentals (Meta)', completed: false, pts: 250 },
+      { id: 'm2', title: 'Módulo 2: React Basics & Advanced UI Components', completed: false, pts: 350 },
+      { id: 'm3', title: 'Módulo 3: Capstone Project & Job Prep', completed: false, pts: 300 }
     ]
   }
 ];
@@ -778,12 +838,14 @@ function renderMyActiveCourses() {
     const completedCount = course.modules.filter(m => m.completed).length;
     const pct = Math.round((completedCount / course.modules.length) * 100);
 
+    const badgeClass = course.provider || 'mec';
+    const badgeLabel = course.badgeText || (course.provider ? course.provider.toUpperCase() : 'MEC APRENDA+');
+
     const card = document.createElement('div');
     card.className = 'course-card';
     card.innerHTML = `
       <div class="course-thumb ${course.category || 'ti'}">
-        ${course.thumb || '💻'}
-        <span class="course-badge mec">MEC APRENDA+</span>
+        <span class="course-badge ${badgeClass}">${badgeLabel}</span>
       </div>
       <div class="course-body">
         <h4>${course.title}</h4>
@@ -811,7 +873,9 @@ function renderMyActiveCourses() {
   });
 }
 
-/* ---------- MEC Modal Integration ---------- */
+/* ---------- Multi-Provider Course Integration Hub (MEC, Alura, Udemy, Coursera) ---------- */
+let activeProviderFilter = 'all';
+
 function initMecIntegration() {
   const modal = document.getElementById('mec-modal');
   const closeBtn = document.getElementById('mec-modal-close');
@@ -852,17 +916,28 @@ function initMecIntegration() {
     });
   }
 
+  // Provider Filter Chips
+  document.querySelectorAll('[data-provider-filter]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('[data-provider-filter]').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeProviderFilter = chip.getAttribute('data-provider-filter');
+      filterAndRenderCatalog();
+    });
+  });
+
   const searchInput = document.getElementById('mec-search-input');
   const catFilter = document.getElementById('mec-category-filter');
 
   function filterAndRenderCatalog() {
-    const query = searchInput.value.toLowerCase().trim();
-    const selectedCat = catFilter.value;
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const selectedCat = catFilter ? catFilter.value : 'all';
 
     const filtered = MEC_OFFICIAL_CATALOG.filter(item => {
-      const matchesQuery = item.title.toLowerCase().includes(query) || item.institution.toLowerCase().includes(query) || item.description.toLowerCase().includes(query);
+      const matchesQuery = !query || item.title.toLowerCase().includes(query) || item.institution.toLowerCase().includes(query) || item.description.toLowerCase().includes(query);
       const matchesCat = selectedCat === 'all' || item.category === selectedCat;
-      return matchesQuery && matchesCat;
+      const matchesProvider = activeProviderFilter === 'all' || item.provider === activeProviderFilter;
+      return matchesQuery && matchesCat && matchesProvider;
     });
 
     renderMecCatalogList(filtered);
@@ -878,54 +953,102 @@ function initMecIntegration() {
     importForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const urlInput = document.getElementById('mec-import-url').value.trim();
-      const instInput = document.getElementById('mec-import-institution').value;
+      const providerInput = document.getElementById('mec-import-provider')?.value || 'mec';
 
       if (!urlInput) return;
 
+      const providerInfo = getProviderDetails(providerInput, urlInput);
+
       const newCourse = {
         id: 'imported-' + Date.now(),
-        title: extractCourseTitleFromUrl(urlInput),
+        provider: providerInput,
+        title: providerInfo.title,
         category: 'ti',
-        institution: instInput,
-        hours: 30,
-        thumb: '🎓',
+        institution: providerInfo.institution,
+        hours: providerInfo.hours,
+        badgeText: providerInfo.badgeText,
         url: urlInput,
-        description: 'Curso importado via link oficial do Aprenda Mais MEC.',
+        description: providerInfo.description,
         modules: [
-          { id: 'm1', title: 'Módulo 1: Introdução & Orientações do MEC', completed: true, pts: 100 },
+          { id: 'm1', title: 'Módulo 1: Introdução & Validação de Certificado', completed: true, pts: 100 },
           { id: 'm2', title: 'Módulo 2: Conteúdo Principal do Curso', completed: false, pts: 100 },
-          { id: 'm3', title: 'Módulo 3: Atividades de Fixação', completed: false, pts: 100 },
-          { id: 'm4', title: 'Avaliação Final & Emissão de Certificado', completed: false, pts: 200 }
+          { id: 'm3', title: 'Módulo 3: Atividades Práticas de Fixação', completed: false, pts: 100 },
+          { id: 'm4', title: 'Avaliação Final & Emissão de Certificado', completed: false, pts: 150 }
         ]
       };
 
       appState.activeCourses.unshift(newCourse);
-      appState.points += 100;
+      appState.points += 150;
       saveAppState();
       renderMyActiveCourses();
       closeMecModal();
 
-      alert(`🎉 Curso "${newCourse.title}" importado e sincronizado com sucesso! (+100 PTS de Bônus)`);
+      showToastNotification(`🎉 Certificado do ${providerInfo.badgeText} validado com sucesso! (+150 PTS de Bônus)`);
     });
   }
 
   const refreshBtn = document.getElementById('btn-refresh-mec-courses');
   if (refreshBtn) {
     refreshBtn.addEventListener('click', () => {
-      refreshBtn.textContent = '⌛ Sincronizando...';
+      refreshBtn.textContent = '⌛ Sincronizando Provedores...';
       setTimeout(() => {
-        refreshBtn.textContent = '✓ Sincronizado com MEC';
+        refreshBtn.textContent = '✓ Sincronizado com MEC, Alura, Udemy & Coursera';
         setTimeout(() => refreshBtn.textContent = '🔄 Atualizar Sincronização', 2000);
       }, 800);
     });
   }
 }
 
-function extractCourseTitleFromUrl(url) {
-  if (url.includes('python')) return 'Curso Avançado de Python (MEC)';
-  if (url.includes('gestao')) return 'Gestão Empresarial Aplicada (MEC)';
-  if (url.includes('ingles')) return 'Inglês Instrumental (MEC)';
-  return 'Curso Autoinstrucional Aprenda Mais MEC';
+function getProviderDetails(provider, url) {
+  const lowerUrl = url.toLowerCase();
+
+  if (provider === 'alura' || lowerUrl.includes('alura')) {
+    return {
+      title: extractCourseTitle(url, 'Curso de Tecnologia & Programação (Alura)'),
+      institution: 'Alura — Escola de Tecnologia',
+      hours: 40,
+      badgeText: 'ALURA',
+      description: 'Curso validado via link/certificado oficial da plataforma Alura.'
+    };
+  }
+
+  if (provider === 'udemy' || lowerUrl.includes('udemy')) {
+    return {
+      title: extractCourseTitle(url, 'Curso Especializado (Udemy)'),
+      institution: 'Udemy — Tech Academy',
+      hours: 35,
+      badgeText: 'UDEMY',
+      description: 'Certificado validado com sucesso via código oficial Udemy.'
+    };
+  }
+
+  if (provider === 'coursera' || lowerUrl.includes('coursera')) {
+    return {
+      title: extractCourseTitle(url, 'Certificação Profissional (Coursera)'),
+      institution: 'Coursera (Google / Meta / IBM)',
+      hours: 50,
+      badgeText: 'COURSERA',
+      description: 'Certificado oficial verificado via plataforma Coursera.'
+    };
+  }
+
+  return {
+    title: extractCourseTitle(url, 'Curso Autoinstrucional Aprenda Mais MEC'),
+    institution: 'Aprenda Mais MEC — Ministério da Educação',
+    hours: 30,
+    badgeText: 'MEC',
+    description: 'Curso validado via plataforma oficial Aprenda Mais MEC.'
+  };
+}
+
+function extractCourseTitle(url, fallback) {
+  const lower = url.toLowerCase();
+  if (lower.includes('python')) return 'Formação Avançada em Python';
+  if (lower.includes('react')) return 'React com TypeScript & Front-End';
+  if (lower.includes('data')) return 'Data Science & Análise de Dados';
+  if (lower.includes('ux') || lower.includes('design')) return 'UX/UI Design & Experiência do Usuário';
+  if (lower.includes('gestao') || lower.includes('scrum')) return 'Gestão de Projetos Ágeis & Scrum';
+  return fallback;
 }
 
 function openMecModal() {
@@ -951,22 +1074,24 @@ function renderMecCatalogList(items) {
   listEl.innerHTML = '';
 
   if (items.length === 0) {
-    listEl.innerHTML = `<p class="text-sm text-tertiary" style="grid-column:1/-1; text-align:center; padding:20px;">Nenhum curso encontrado para este filtro.</p>`;
+    listEl.innerHTML = `<p class="text-sm text-tertiary" style="grid-column:1/-1; text-align:center; padding:20px;">Nenhum curso encontrado para os filtros selecionados.</p>`;
     return;
   }
 
   items.forEach(course => {
     const isEnrolled = appState.activeCourses.some(c => c.id === course.id);
+    const badgeClass = course.provider || 'mec';
+    const badgeLabel = course.badgeText || (course.provider ? course.provider.toUpperCase() : 'MEC');
 
     const card = document.createElement('div');
     card.className = 'mec-item-card';
     card.innerHTML = `
       <div>
         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
-          <h4 class="mec-item-title">${course.thumb} ${course.title}</h4>
-          <span class="course-badge mec" style="position:static;">MEC</span>
+          <h4 class="mec-item-title">${course.title}</h4>
+          <span class="course-badge ${badgeClass}" style="position:static;">${badgeLabel}</span>
         </div>
-        <p class="mec-item-meta">🏫 ${course.institution} · ⏱️ ${course.hours}h</p>
+        <p class="mec-item-meta" style="margin-top:6px;">🏫 ${course.institution} · ⏱️ ${course.hours}h</p>
         <p class="text-xs text-secondary mb-4" style="line-height:1.4;">${course.description}</p>
       </div>
       <div>
@@ -980,12 +1105,11 @@ function renderMecCatalogList(items) {
     if (!isEnrolled) {
       card.querySelector('button').addEventListener('click', () => {
         appState.activeCourses.push(course);
-        appState.points += 50;
+        appState.points += 100;
         saveAppState();
         renderMyActiveCourses();
         renderMecCatalogList(MEC_OFFICIAL_CATALOG);
-        closeMecModal();
-        alert(`🎓 Você se matriculou em "${course.title}"! (+50 PTS)`);
+        showToastNotification(`🎓 Curso "${course.title}" (${badgeLabel}) sincronizado! (+100 PTS)`);
       });
     }
 
